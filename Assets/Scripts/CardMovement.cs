@@ -11,7 +11,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         defaltParent = transform.parent;                    // 自分自身の親を取得する
         transform.SetParent(defaltParent.parent, false);    // 親の親（Canvas）を取得する
-        GetComponent<CanvasGroup>().blocksRaycasts = false; // ドラッグ中はレイキャストをブロックしない
+        GetComponent<CanvasGroup>().blocksRaycasts = false; // ドラッグする時はレイキャストをブロックしない
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -22,6 +22,6 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.SetParent(defaltParent, false);           // 離した時に親に戻る
-        GetComponent<CanvasGroup>().blocksRaycasts = true;  // ドラッグ中はレイキャストをブロックする
+        GetComponent<CanvasGroup>().blocksRaycasts = true;  // ドラッグ後はレイキャストをブロックする
     }
 }
