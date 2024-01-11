@@ -22,6 +22,12 @@ public class CardController : MonoBehaviour
         cardView.Show(cardModel);
     }
 
+    public void Attack(CardController enemyCard)
+    {
+        cardModel.Attack(enemyCard);
+        cardView.SetActiveSelectablePanel(false);
+    }
+
     public void CheckAlive()
     {
         if (cardModel.isAlive)

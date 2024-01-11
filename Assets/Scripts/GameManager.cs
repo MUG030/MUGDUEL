@@ -103,8 +103,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("attacker HP:" + attacker.cardModel.hp);
         Debug.Log("defender HP:" + defender.cardModel.hp);
         
-        attacker.cardModel.Attack(defender);
-        defender.cardModel.Attack(attacker);
+        attacker.Attack(defender);
+        defender.Attack(attacker);
 
         Debug.Log("attacker HP:" + attacker.cardModel.hp);
         Debug.Log("defender HP:" + defender.cardModel.hp);

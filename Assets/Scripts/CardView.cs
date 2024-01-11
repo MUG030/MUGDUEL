@@ -11,6 +11,7 @@ public class CardView : MonoBehaviour
     [SerializeField] TextMeshProUGUI atkText;
     [SerializeField] TextMeshProUGUI costText;
     [SerializeField] Image iconImage;
+    [SerializeField] GameObject selectablePanel;
 
     public void Show(CardModel cardModel)
     {
@@ -25,5 +26,10 @@ public class CardView : MonoBehaviour
     {
         hpText.text = cardModel.hp.ToString();
         atkText.text = cardModel.atk.ToString();
+    }
+
+    public void SetActiveSelectablePanel(bool isAttackFlag)
+    {
+        selectablePanel.SetActive(isAttackFlag);
     }
 }
