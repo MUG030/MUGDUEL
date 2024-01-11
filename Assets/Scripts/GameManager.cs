@@ -42,6 +42,14 @@ public class GameManager : MonoBehaviour
     public void ChangeTurn()
     {
         isPlayerTurn = !isPlayerTurn;
+        if(isPlayerTurn)
+        {
+            CreateCard(playerHandTransform);
+        }
+        else
+        {
+            CreateCard(enemyHandTransform);
+        }
         TurnCalc();
     }
 
@@ -53,7 +61,7 @@ public class GameManager : MonoBehaviour
     private void EnemyTurn()
     {
         Debug.Log("Enemyのターン");
-
+        
         // 最後にターンチェンジを自動で行う
         ChangeTurn();
     }
