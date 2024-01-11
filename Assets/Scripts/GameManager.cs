@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
                                enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
     private bool isPlayerTurn;
+    private List<int> playerDeck = new List<int>() {3,1,2,4,3,4,1},
+                      enemyDeck = new List<int>() {2,4,3,1,1,3,4};
 
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
@@ -58,13 +60,41 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = !isPlayerTurn;
         if(isPlayerTurn)
         {
-            CreateCard(playerHandTransform);
+            GiveCardToHand(playerDeck, playerHandTransform);
         }
         else
         {
-            CreateCard(enemyHandTransform);
+            GiveCardToHand(enemyDeck, enemyHandTransform);
         }
         TurnCalc();
+    }
+
+    private void SettingInitHand()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GiveCardToHand(playerDeck, playerHandTransform);
+            GiveCardToHand(enemyDeck, enemyHandTransform);
+        }
+    }
+
+    void GiveCardToHand(List<int> deck,Transform hand)
+    {
+        if (deck.Count == 0)
+        {
+            // 山札がなくなったら，カードを引かない
+            return;
+        }
+        int cardID = deck[0];
+        deck.RemoveAt(0);       // 0番目のカードを抜き取る
+        CreateCard(cardID, hand);
+    }
+
+    private void CreateCard(int cardID, Transform hand)
+    {
+        CardController card = Instantiate(cardPrefab, hand, false);
+        // カードのID（種類）
+        card.Init(cardID);
     }
 
     private void PlayerTurn()
@@ -127,18 +157,5 @@ public class GameManager : MonoBehaviour
         defender.CheckAlive();
     }
 
-    private void SettingInitHand()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            CreateCard(playerHandTransform);
-            CreateCard(enemyHandTransform);
-        }
-    }
-
-    private void CreateCard(Transform hand)
-    {
-        CardController card = Instantiate(cardPrefab, hand, false);
-        card.Init(1);
-    }
+    
 }
