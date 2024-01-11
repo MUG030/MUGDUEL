@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardController : MonoBehaviour
 {
     private CardView cardView;          // 見かけ(View)に関する事を操作
-    private CardModel cardModel;        // データ(Model)に関する事を操作
+    public CardModel cardModel;        // データ(Model)に関する事を操作
     public CardMovement cardMovement;  // 移動(Movement)に関する事を操作
     // 全部処理するとややこしくなるため，別のクラスで管理する
 

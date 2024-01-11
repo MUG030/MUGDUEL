@@ -21,4 +21,18 @@ public class CardModel
         icon = cardEntity.icon;
     }
 
+    private void Damage(int dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0)
+        {
+            hp = 0;
+        }
+    }
+
+    public void Attack(CardController card)
+    {
+        card.cardModel.Damage(atk);
+    }
+
 }

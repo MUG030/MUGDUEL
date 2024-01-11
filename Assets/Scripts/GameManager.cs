@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     // 手札にカードを生成
 
     [SerializeField] Transform playerHandTransform,
+                               playerFieldTransform,
                                enemyHandTransform,
                                enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
@@ -64,13 +65,39 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Enemyのターン");
         // 手札のカードリストを取得
-        CardController[] cardList = enemyHandTransform.GetComponentsInChildren<CardController>();
+        CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
         // 場に出すカードを選択
-        CardController card = cardList[0];
+        CardController enemyCard = handCardList[0];
         // カードを移動
-        card.cardMovement.SetCardTransform(enemyFieldTransform);
+        enemyCard.cardMovement.SetCardTransform(enemyFieldTransform);
+
+        /* 攻撃 */
+        // Fieldのカードリストを取得
+        CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        // attakerカードを選択
+        CardController attacker = fieldCardList[0];
+        // defenderカードを選択(Playerフィールドから選択)
+        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
+        CardController defender = playerFieldCardList[0];
+        // attakerとdefenderが戦う
+        CardsBattle(attacker, defender);
+
+
         // 最後にターンチェンジを自動で行う
         ChangeTurn();
+    }
+
+    private void CardsBattle(CardController attacker, CardController defender)
+    {
+        Debug.Log("CardsBattle");
+        Debug.Log("attacker HP:" + attacker.cardModel.hp);
+        Debug.Log("defender HP:" + defender.cardModel.hp);
+        
+        attacker.cardModel.Attack(defender);
+        defender.cardModel.Attack(attacker);
+
+        Debug.Log("attacker HP:" + attacker.cardModel.hp);
+        Debug.Log("defender HP:" + defender.cardModel.hp);
     }
 
     private void SettingInitHand()
