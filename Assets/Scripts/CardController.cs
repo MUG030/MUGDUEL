@@ -21,4 +21,16 @@ public class CardController : MonoBehaviour
         cardModel = new CardModel(cardID);
         cardView.Show(cardModel);
     }
+
+    public void CheckAlive()
+    {
+        if (cardModel.isAlive)
+        {
+            cardView.Refresh(cardModel);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

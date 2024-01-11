@@ -98,6 +98,9 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("attacker HP:" + attacker.cardModel.hp);
         Debug.Log("defender HP:" + defender.cardModel.hp);
+
+        attacker.CheckAlive();
+        defender.CheckAlive();
     }
 
     private void SettingInitHand()
