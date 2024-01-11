@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     // 手札にカードを生成
 
     [SerializeField] Transform playerHandTransform;
-    [SerializeField] GameObject cardPrefab;
+    [SerializeField] CardController cardPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void CreateCard(Transform hand)
     {
-        Instantiate(cardPrefab, hand, false);
+        CardController card = Instantiate(cardPrefab, hand, false);
+        card.Init();
     }
 }
