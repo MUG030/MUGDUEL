@@ -13,6 +13,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] CardController cardPrefab;
     private bool isPlayerTurn;
 
+    // シングルトン化（どこからでもアクセスできるようにする）
+    public static GameManager instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,7 +97,7 @@ public class GameManager : MonoBehaviour
         ChangeTurn();
     }
 
-    private void CardsBattle(CardController attacker, CardController defender)
+    public void CardsBattle(CardController attacker, CardController defender)
     {
         Debug.Log("CardsBattle");
         Debug.Log("attacker HP:" + attacker.cardModel.hp);
