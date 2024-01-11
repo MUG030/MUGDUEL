@@ -12,6 +12,7 @@ public class CardModel
     public int cost;
     public Sprite icon;
     public bool isAlive;
+    public bool canAttack;
 
     public CardModel(int cardID)
     {

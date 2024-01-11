@@ -14,19 +14,16 @@ public class AttackedCard : MonoBehaviour, IDropHandler
         CardController attacker = eventData.pointerDrag.GetComponent<CardController>();
         // defenderカードを選択(Playerフィールドから選択)
         CardController defender = GetComponent<CardController>();
-        // attakerとdefenderが戦う
-        GameManager.instance.CardsBattle(attacker, defender);    // CardsBattle(attacker, defender);だとGameManagerの関数をpublicにしても呼び出せない
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        if (attacker == null || defender == null)
+        {
+            return;
+        }
+        if (attacker.cardModel.canAttack)
+        {
+            // attakerとdefenderが戦う
+            GameManager.instance.CardsBattle(attacker, defender);    // CardsBattle(attacker, defender);だとGameManagerの関数をpublicにしても呼び出せない
+        }
         
     }
 }
