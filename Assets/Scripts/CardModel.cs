@@ -11,9 +11,9 @@ public class CardModel
     public int atk;
     public int cost;
     public Sprite icon;
-    public CardModel()
+    public CardModel(int cardID)
     {
-        CardEntity cardEntity = Resources.Load<CardEntity>("CardDataList/Card1");
+        CardEntity cardEntity = Resources.Load<CardEntity>("CardDataList/Card" + cardID);
         name = cardEntity.name;
         hp = cardEntity.hp;
         atk = cardEntity.atk;

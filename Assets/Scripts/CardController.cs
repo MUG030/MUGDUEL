@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class CardController : MonoBehaviour
 {
-    // 見かけ(View)に関する事を操作
+    private CardView cardView;// 見かけ(View)に関する事を操作
     private CardModel cardModel;// データ(Model)に関する事を操作
     // 全部処理するとややこしくなるため，別のクラスで管理する
 
-    public void Init()
+    private void Awake()
     {
-        cardModel = new CardModel();
+        cardView = GetComponent<CardView>();
+    }
+
+    public void Init(int cardID)
+    {
+        cardModel = new CardModel(cardID);
+        cardView.Show(cardModel);
     }
 }
