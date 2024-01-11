@@ -24,4 +24,10 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         transform.SetParent(defaltParent, false);           // 離した時に親に戻る
         GetComponent<CanvasGroup>().blocksRaycasts = true;  // ドラッグ後はレイキャストをブロックする
     }
+
+    public void SetCardTransform(Transform parentTransform)
+    {
+        defaltParent = parentTransform;
+        transform.SetParent(defaltParent);
+    }
 }
