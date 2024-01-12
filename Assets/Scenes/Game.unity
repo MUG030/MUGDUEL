@@ -1149,7 +1149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &949028965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2144,6 +2144,10 @@ MonoBehaviour:
   cardPrefab: {fileID: 8679994835486770835, guid: a8edffa395c274b428048e8f73581be7, type: 3}
   playerHeroHpText: {fileID: 663945514}
   enemyHeroHpText: {fileID: 822698066}
+  playerManaCost: 0
+  enemyManaCost: 0
+  playerManaCostText: {fileID: 1530002557}
+  enemyManaCostText: {fileID: 125794240}
 --- !u!4 &1641766384
 Transform:
   m_ObjectHideFlags: 0

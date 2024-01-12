@@ -26,6 +26,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerHeroHpText,
                                      enemyHeroHpText;
 
+    public int playerManaCost;
+    public int enemyManaCost;
+
+    [SerializeField] TextMeshProUGUI playerManaCostText,
+                                     enemyManaCostText;
+
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
     private void Awake()
@@ -49,7 +55,10 @@ public class GameManager : MonoBehaviour
         // 両プレイヤーのHPを設定
         playerHeroHp = 1;
         enemyHeroHp = 1;
+        playerManaCost = 1;
+        enemyManaCost = 1;
         ShowHeroHp();
+        ShowManaCost();
         // カードをそれぞれに３枚配る
         SettingInitHand();
         // カードをシャッフル
@@ -57,6 +66,25 @@ public class GameManager : MonoBehaviour
         // ターンを開始する
         isPlayerTurn = true;
         TurnCalc();             // ターン切り替え処理
+    }
+
+    private void ShowManaCost()
+    {
+        playerManaCostText.text = playerManaCost.ToString();
+        enemyManaCostText.text = enemyManaCost.ToString();
+    }
+
+    public void ReduceManaCost(int cost, bool isPlayerCard)
+    {
+        if (isPlayerCard)
+        {
+            playerManaCost -= cost;
+        }
+        else
+        {
+            enemyManaCost -= cost;
+        }
+        ShowManaCost();
     }
 
     public void Restart()
