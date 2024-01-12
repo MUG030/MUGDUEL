@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class GameManager : MonoBehaviour
     private bool isPlayerTurn;
     private List<int> playerDeck = new List<int>() {3,1,2,4,3,4,1},
                       enemyDeck = new List<int>() {2,4,3,1,1,3,4};
+
+    private int playerHeroHp;
+    private int enemyHeroHp;
+
+    [SerializeField] TextMeshProUGUI playerHeroHpText,
+                                     enemyHeroHpText;
 
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
@@ -34,6 +41,10 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        // 両プレイヤーのHPを設定
+        playerHeroHp = 30;
+        enemyHeroHp = 30;
+        ShowHeroHp();
         // カードをそれぞれに３枚配る
         SettingInitHand();
         // カードをシャッフル
@@ -155,6 +166,30 @@ public class GameManager : MonoBehaviour
 
         attacker.CheckAlive();
         defender.CheckAlive();
+    }
+
+    private void ShowHeroHp()
+    {
+        playerHeroHpText.text = playerHeroHp.ToString();
+        enemyHeroHpText.text = enemyHeroHp.ToString();
+    }
+
+    public void AttackToHero(CardController attacker, bool isPLayerCard)
+    {
+        if (isPLayerCard)
+        {
+            // PlayerのHeroを攻撃
+            // HeroのHPを減らす
+            enemyHeroHp -= attacker.cardModel.atk;
+        }
+        else
+        {
+            // EnemyのHeroを攻撃
+            // HeroのHPを減らす
+            playerHeroHp -= attacker.cardModel.atk;
+        }
+        attacker.SetCanAttack(false);
+        ShowHeroHp();
     }
 
     
