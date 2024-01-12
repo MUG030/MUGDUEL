@@ -13,7 +13,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         // カードのコストとPlayerのManaコストを比較する
         CardController card = GetComponent<CardController>();
-        if (card.cardModel.cost <= GameManager.instance.playerManaCost)
+        if (!card.cardModel.isFieldCard && card.cardModel.cost <= GameManager.instance.playerManaCost)
+        {
+            isDraggable = true;
+        }
+        else if (card.cardModel.isFieldCard && card.cardModel.canAttack)
         {
             isDraggable = true;
         }
@@ -47,7 +51,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         {
             return;
         }
-        
+
         transform.SetParent(defaltParent, false);           // 離した時に親に戻る
         GetComponent<CanvasGroup>().blocksRaycasts = true;  // ドラッグ後はレイキャストをブロックする
     }

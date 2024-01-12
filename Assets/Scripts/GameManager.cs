@@ -74,6 +74,9 @@ public class GameManager : MonoBehaviour
         enemyManaCostText.text = enemyManaCost.ToString();
     }
 
+    /// <summary> マナコストを減らす </summary>
+    /// <param name="cost"> カード召喚に必要なコスト </param>
+    /// <param name="isPlayerCard"> prayerのカードが動かされたか判定 </param>
     public void ReduceManaCost(int cost, bool isPlayerCard)
     {
         if (isPlayerCard)
