@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 {
     // 手札にカードを生成
 
+    [SerializeField] GameObject resultPanel;
+    [SerializeField] TextMeshProUGUI resultText;
+
     [SerializeField] Transform playerHandTransform,
                                playerFieldTransform,
                                enemyHandTransform,
@@ -41,9 +44,11 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        // リザルトは非表示
+        resultPanel.SetActive(false);
         // 両プレイヤーのHPを設定
-        playerHeroHp = 30;
-        enemyHeroHp = 30;
+        playerHeroHp = 1;
+        enemyHeroHp = 1;
         ShowHeroHp();
         // カードをそれぞれに３枚配る
         SettingInitHand();
@@ -52,6 +57,31 @@ public class GameManager : MonoBehaviour
         // ターンを開始する
         isPlayerTurn = true;
         TurnCalc();             // ターン切り替え処理
+    }
+
+    public void Restart()
+    {
+        // handとFieldのカードを削除
+        foreach (Transform card in playerHandTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in enemyHandTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in playerFieldTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        foreach (Transform card in enemyFieldTransform)
+        {
+            Destroy(card.gameObject);
+        }
+        // デッキを生成
+        playerDeck = new List<int>() {3,1,2,4,3,4,1};
+        enemyDeck = new List<int>() {2,4,3,1,1,3,4};
+        StartGame();
     }
 
     private void TurnCalc()
@@ -207,6 +237,23 @@ public class GameManager : MonoBehaviour
         }
         attacker.SetCanAttack(false);
         ShowHeroHp();
+        CheckHeroHp();
+    }
+
+    private void CheckHeroHp()
+    {
+        if (playerHeroHp <= 0 || enemyHeroHp <= 0)
+        {
+            resultPanel.SetActive(true);
+            if (playerHeroHp <= 0)
+            {
+                resultText.text = "LOSE";
+            }
+            else
+            {
+                resultText.text = "WIN";
+            }
+        }
     }
 
     
