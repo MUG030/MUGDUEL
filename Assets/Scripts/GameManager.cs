@@ -123,6 +123,15 @@ public class GameManager : MonoBehaviour
     private void EnemyTurn()
     {
         Debug.Log("Enemyのターン");
+        /* フィールドのカードを攻撃可能にする */
+        // Fieldのカードを攻撃可能にする
+        CardController[] enemyFieldCard = enemyFieldTransform.GetComponentsInChildren<CardController>();
+        foreach (CardController card in enemyFieldCard)
+        {
+            // cardを攻撃可能にする
+            card.SetCanAttack(true);
+        }
+
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
         // 場に出すカードを選択
@@ -138,14 +147,22 @@ public class GameManager : MonoBehaviour
         // defenderカードを選択(Playerフィールドから選択)
         CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
         
-        if (enemyCanAttackCardList.Length > 0 && playerFieldCardList.Length > 0)
+        if (enemyCanAttackCardList.Length > 0)
         {
             // attakerカードを選択
             CardController attacker = enemyCanAttackCardList[0];
-            // dienderカードを選択
-            CardController defender = playerFieldCardList[0];
-            // attakerとdefenderが戦う
-            CardsBattle(attacker, defender);
+            if (playerFieldCardList.Length > 0)
+            {
+                // dienderカードを選択
+                CardController defender = playerFieldCardList[0];
+                // attakerとdefenderが戦う
+                CardsBattle(attacker, defender);
+            }
+            else
+            {
+                AttackToHero(attacker, false);
+            }
+            
         }
 
         // 最後にターンチェンジを自動で行う
