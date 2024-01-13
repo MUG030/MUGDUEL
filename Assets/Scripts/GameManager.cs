@@ -28,9 +28,12 @@ public class GameManager : MonoBehaviour
 
     public int playerManaCost;
     public int enemyManaCost;
+    private int playerDefaltManaCost;
+    private int enemyDefaltManaCost;
 
     [SerializeField] TextMeshProUGUI playerManaCostText,
                                      enemyManaCostText;
+
 
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
@@ -57,6 +60,8 @@ public class GameManager : MonoBehaviour
         enemyHeroHp = 1;
         playerManaCost = 1;
         enemyManaCost = 1;
+        playerDefaltManaCost = 1;
+        enemyDefaltManaCost = 1;
         ShowHeroHp();
         ShowManaCost();
         // カードをそれぞれに３枚配る
@@ -132,12 +137,17 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = !isPlayerTurn;
         if(isPlayerTurn)
         {
+            playerDefaltManaCost++;
+            playerManaCost = playerDefaltManaCost;
             GiveCardToHand(playerDeck, playerHandTransform);
         }
         else
         {
+            enemyDefaltManaCost++;
+            enemyManaCost = enemyDefaltManaCost;
             GiveCardToHand(enemyDeck, enemyHandTransform);
         }
+        ShowManaCost();
         TurnCalc();
     }
 
@@ -195,10 +205,18 @@ public class GameManager : MonoBehaviour
 
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
-        // 場に出すカードを選択
-        CardController enemyCard = handCardList[0];
-        // カードを移動
-        enemyCard.cardMovement.SetCardTransform(enemyFieldTransform);
+        // コスト以下のカードリストを取得
+        CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.cardModel.cost <= enemyManaCost);   // 検索Array.FindAll(検索対象の配列, cardに配列の要素を入れる)
+
+        if (selectableHandCardList.Length > 0)
+        {
+            // 場に出すカードを選択
+            CardController enemyCard = selectableHandCardList[0];
+            // カードを移動
+            enemyCard.cardMovement.SetCardTransform(enemyFieldTransform);
+            ReduceManaCost(enemyCard.cardModel.cost, false);
+            enemyCard.cardModel.isFieldCard = true;
+        }
 
         /* 攻撃 */
         // Fieldのカードリストを取得
