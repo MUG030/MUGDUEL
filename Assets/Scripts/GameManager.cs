@@ -63,10 +63,8 @@ public class GameManager : MonoBehaviour
         // 両プレイヤーのHPを設定
         playerHeroHp = 1;
         enemyHeroHp = 1;
-        playerManaCost = 1;
-        enemyManaCost = 1;
-        playerDefaltManaCost = 1;
-        enemyDefaltManaCost = 1;
+        playerManaCost = playerDefaltManaCost = 10;
+        enemyManaCost = enemyDefaltManaCost = 10;
         ShowHeroHp();
         ShowManaCost();
         // カードをそれぞれに３枚配る
@@ -235,31 +233,37 @@ public class GameManager : MonoBehaviour
 
         // 手札のカードリストを取得
         CardController[] handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
-        // コスト以下のカードリストを取得
-        CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.cardModel.cost <= enemyManaCost);   // 検索Array.FindAll(検索対象の配列, cardに配列の要素を入れる)
 
-        if (selectableHandCardList.Length > 0)
+        // コスト以下のカードがあれば，カードをフィールドに出し続ける
+        while (Array.Exists(handCardList, card => card.cardModel.cost <= enemyManaCost))
         {
+            // コスト以下のカードリストを取得
+            CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.cardModel.cost <= enemyManaCost);   // 検索Array.FindAll(検索対象の配列, cardに配列の要素を入れる)
             // 場に出すカードを選択
             CardController enemyCard = selectableHandCardList[0];
             // カードを移動
             enemyCard.cardMovement.SetCardTransform(enemyFieldTransform);
             ReduceManaCost(enemyCard.cardModel.cost, false);
             enemyCard.cardModel.isFieldCard = true;
+            handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
+            yield return new WaitForSeconds(1);
         }
+
+
+        
 
         yield return new WaitForSeconds(1);
 
         /* 攻撃 */
         // Fieldのカードリストを取得
         CardController[] fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
-        // 攻撃可能カードを取得
-        CardController[] enemyCanAttackCardList = Array.FindAll(fieldCardList, card => card.cardModel.canAttack);   // 検索Array.FindAll(検索対象の配列, 条件)
-        // defenderカードを選択(Playerフィールドから選択)
-        CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
-        
-        if (enemyCanAttackCardList.Length > 0)
+        // 攻撃可能カードがあれば攻撃を繰り返す
+        while (Array.Exists(fieldCardList, card => card.cardModel.canAttack))
         {
+            // 攻撃可能カードを取得
+            CardController[] enemyCanAttackCardList = Array.FindAll(fieldCardList, card => card.cardModel.canAttack);   // 検索Array.FindAll(検索対象の配列, 条件)
+            // defenderカードを選択(Playerフィールドから選択)
+            CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
             // attakerカードを選択
             CardController attacker = enemyCanAttackCardList[0];
             if (playerFieldCardList.Length > 0)
@@ -273,10 +277,12 @@ public class GameManager : MonoBehaviour
             {
                 AttackToHero(attacker, false);
             }
-            
+            fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();  // フィールドのカードリストを更新
+            yield return new WaitForSeconds(1);
         }
+        
 
-        yield return new WaitForSeconds(1);
+        
 
         // 最後にターンチェンジを自動で行う
         ChangeTurn();
