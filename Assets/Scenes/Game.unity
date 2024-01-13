@@ -2149,6 +2149,7 @@ MonoBehaviour:
   enemyManaCost: 0
   playerManaCostText: {fileID: 1530002557}
   enemyManaCostText: {fileID: 125794240}
+  timeCountText: {fileID: 2138894281}
 --- !u!4 &1641766384
 Transform:
   m_ObjectHideFlags: 0

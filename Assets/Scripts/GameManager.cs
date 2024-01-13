@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI playerManaCostText,
                                      enemyManaCostText;
+
+    // 時間管理
+    [SerializeField] TextMeshProUGUI timeCountText;
+    private int timeCount;
 
 
     // シングルトン化（どこからでもアクセスできるようにする）
@@ -122,6 +127,8 @@ public class GameManager : MonoBehaviour
 
     private void TurnCalc()
     {
+        StopAllCoroutines();
+        StartCoroutine(CountDown());
         if (isPlayerTurn)
         {
             PlayerTurn();
@@ -131,6 +138,20 @@ public class GameManager : MonoBehaviour
             EnemyTurn();
         }
     } 
+
+    IEnumerator CountDown()
+    {
+        timeCount = 8;
+        timeCountText.text = timeCount.ToString();
+        
+        while (timeCount > 0)
+        {
+            yield return new WaitForSeconds(1);  // 1秒待つ
+            timeCount--;
+            timeCountText.text = timeCount.ToString();
+        }
+        ChangeTurn();
+    }
 
     public void ChangeTurn()
     {
