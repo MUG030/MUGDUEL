@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     private int playerHeroHp;
     private int enemyHeroHp;
 
+    [SerializeField] Transform playerHero;
+
     [SerializeField] TextMeshProUGUI playerHeroHpText,
                                      enemyHeroHpText;
 
@@ -242,7 +244,7 @@ public class GameManager : MonoBehaviour
             // 場に出すカードを選択
             CardController enemyCard = selectableHandCardList[0];
             // カードを移動
-            enemyCard.cardMovement.SetCardTransform(enemyFieldTransform);
+            StartCoroutine(enemyCard.cardMovement.MoveToField(enemyFieldTransform));
             ReduceManaCost(enemyCard.cardModel.cost, false);
             enemyCard.cardModel.isFieldCard = true;
             handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
@@ -271,10 +273,14 @@ public class GameManager : MonoBehaviour
                 // dienderカードを選択
                 CardController defender = playerFieldCardList[0];
                 // attakerとdefenderが戦う
+                StartCoroutine(attacker.cardMovement.MoveToTarget(defender.transform));
+                yield return new WaitForSeconds(0.25f);
                 CardsBattle(attacker, defender);
             }
             else
             {
+                StartCoroutine(attacker.cardMovement.MoveToTarget(playerHero.transform));
+                yield return new WaitForSeconds(0.25f);
                 AttackToHero(attacker, false);
             }
             fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();  // フィールドのカードリストを更新

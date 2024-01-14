@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -56,9 +58,35 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         GetComponent<CanvasGroup>().blocksRaycasts = true;  // ドラッグ後はレイキャストをブロックする
     }
 
-    public void SetCardTransform(Transform parentTransform)
+    public IEnumerator MoveToField(Transform field)
     {
-        defaltParent = parentTransform;
+        // 一度親をCanvasに変更する
+        transform.SetParent(defaltParent.parent);
+        // Dotweenでカードを移動させる
+        transform.DOMove(field.position, 0.25f);
+        yield return new WaitForSeconds(0.25f);
+        defaltParent = field;
         transform.SetParent(defaltParent);
+    }
+    public IEnumerator MoveToTarget(Transform target)
+    {
+        Vector3 currentPos = transform.position;
+        
+        // 一度親をCanvasに変更する
+        transform.SetParent(defaltParent.parent);
+        // DotweenでカードをTargetに移動させる
+        transform.DOMove(target.position, 0.25f);
+        yield return new WaitForSeconds(0.25f);
+
+        // カードを元の位置に戻す
+        transform.DOMove(currentPos, 0.25f);
+        yield return new WaitForSeconds(0.25f);
+        transform.SetParent(defaltParent);
+    }
+
+
+    void Start()
+    {
+        defaltParent = transform.parent;
     }
 }
