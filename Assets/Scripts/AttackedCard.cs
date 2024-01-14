@@ -19,6 +19,10 @@ public class AttackedCard : MonoBehaviour, IDropHandler
         {
             return;
         }
+        if (attacker.cardModel.isPlayerCard == defender.cardModel.isPlayerCard)
+        {
+            return;
+        }
         if (attacker.cardModel.canAttack)
         {
             // attakerとdefenderが戦う

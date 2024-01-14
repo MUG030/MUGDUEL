@@ -212,7 +212,15 @@ public class GameManager : MonoBehaviour
     {
         CardController card = Instantiate(cardPrefab, hand, false);
         // カードのID（種類）
-        card.Init(cardID);
+        if (hand.name == "PlayerHand")
+        {
+            card.Init(cardID, true);
+        }
+        else
+        {
+            card.Init(cardID, false);
+        }
+        card.Init(cardID, false);
     }
 
     private void PlayerTurn()
@@ -282,6 +290,8 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(attacker.cardMovement.MoveToTarget(playerHero.transform));
                 yield return new WaitForSeconds(0.25f);
                 AttackToHero(attacker, false);
+                yield return new WaitForSeconds(0.25f);
+                CheckHeroHp();
             }
             fieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();  // フィールドのカードリストを更新
             yield return new WaitForSeconds(1);
@@ -332,24 +342,27 @@ public class GameManager : MonoBehaviour
         }
         attacker.SetCanAttack(false);
         ShowHeroHp();
-        CheckHeroHp();
     }
 
     private void CheckHeroHp()
     {
         if (playerHeroHp <= 0 || enemyHeroHp <= 0)
         {
-            resultPanel.SetActive(true);
-            if (playerHeroHp <= 0)
-            {
-                resultText.text = "LOSE";
-            }
-            else
-            {
-                resultText.text = "WIN";
-            }
+            ShowResultPanel(playerHeroHp);
         }
     }
 
-    
+    private void ShowResultPanel(int hpHoro)
+    {
+        StopAllCoroutines();
+        resultPanel.SetActive(true);
+        if (playerHeroHp <= 0)
+        {
+            resultText.text = "LOSE";
+        }
+        else
+        {
+            resultText.text = "WIN";
+        }
+    }    
 }

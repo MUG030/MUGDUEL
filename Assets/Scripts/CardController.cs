@@ -16,9 +16,9 @@ public class CardController : MonoBehaviour
         cardMovement = GetComponent<CardMovement>();
     }
 
-    public void Init(int cardID)
+    public void Init(int cardID, bool isPlayer)
     {
-        cardModel = new CardModel(cardID);
+        cardModel = new CardModel(cardID, isPlayer);
         cardView.Show(cardModel);
     }
 

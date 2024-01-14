@@ -70,7 +70,9 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     }
     public IEnumerator MoveToTarget(Transform target)
     {
+        // 現在の位置と並びを取得する
         Vector3 currentPos = transform.position;
+        int siblingIndex = transform.GetSiblingIndex(); // 子要素として何番目にいるか，並び順を取得する
         
         // 一度親をCanvasに変更する
         transform.SetParent(defaltParent.parent);
@@ -78,10 +80,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         transform.DOMove(target.position, 0.25f);
         yield return new WaitForSeconds(0.25f);
 
-        // カードを元の位置に戻す
+        // カードを元の位置と並びに戻す
         transform.DOMove(currentPos, 0.25f);
         yield return new WaitForSeconds(0.25f);
         transform.SetParent(defaltParent);
+        transform.SetSiblingIndex(siblingIndex);
     }
 
 
