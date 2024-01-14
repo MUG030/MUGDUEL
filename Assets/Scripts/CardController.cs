@@ -34,6 +34,17 @@ public class CardController : MonoBehaviour
         cardView.SetActiveSelectablePanel(canAttack);
     }
 
+    // フィールドにカードを出した時によぶ関数
+    public void OnField(bool isPlayer)
+    {
+        GameManager.instance.ReduceManaCost(cardModel.cost, isPlayer);
+        cardModel.isFieldCard = true;
+        if (cardModel.ability == ABILITY.INIT_ATTACKABLE)
+        {
+            SetCanAttack(true);
+        }
+    }
+
     public void CheckAlive()
     {
         if (cardModel.isAlive)

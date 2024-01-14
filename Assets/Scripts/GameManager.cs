@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
         // リザルトは非表示
         resultPanel.SetActive(false);
         // 両プレイヤーのHPを設定
-        playerHeroHp = 1;
-        enemyHeroHp = 1;
+        playerHeroHp = 10;
+        enemyHeroHp = 10;
         playerManaCost = playerDefaltManaCost = 10;
         enemyManaCost = enemyDefaltManaCost = 10;
         ShowHeroHp();
@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CountDown()
     {
-        timeCount = 8;
+        timeCount = 20;
         timeCountText.text = timeCount.ToString();
 
         while (timeCount > 0)
@@ -255,12 +255,10 @@ public class GameManager : MonoBehaviour
             StartCoroutine(enemyCard.cardMovement.MoveToField(enemyFieldTransform));
             ReduceManaCost(enemyCard.cardModel.cost, false);
             enemyCard.cardModel.isFieldCard = true;
+            enemyCard.OnField(false);
             handCardList = enemyHandTransform.GetComponentsInChildren<CardController>();
             yield return new WaitForSeconds(1);
         }
-
-
-        
 
         yield return new WaitForSeconds(1);
 
@@ -282,7 +280,7 @@ public class GameManager : MonoBehaviour
                 CardController defender = playerFieldCardList[0];
                 // attakerとdefenderが戦う
                 StartCoroutine(attacker.cardMovement.MoveToTarget(defender.transform));
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(0.51f);
                 CardsBattle(attacker, defender);
             }
             else
@@ -344,7 +342,7 @@ public class GameManager : MonoBehaviour
         ShowHeroHp();
     }
 
-    private void CheckHeroHp()
+    public void CheckHeroHp()
     {
         if (playerHeroHp <= 0 || enemyHeroHp <= 0)
         {

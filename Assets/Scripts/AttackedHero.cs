@@ -23,6 +23,7 @@ public class AttackedHero : MonoBehaviour, IDropHandler
         {
             // attakerとHeroに攻撃する
             GameManager.instance.AttackToHero(attacker, true);    // CardsBattle(attacker, defender);だとGameManagerの関数をpublicにしても呼び出せない
+            GameManager.instance.CheckHeroHp();
         }
         
     }

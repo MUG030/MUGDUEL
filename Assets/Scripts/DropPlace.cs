@@ -30,8 +30,7 @@ public class DropPlace : MonoBehaviour, IDropHandler
             {
                 return;     // 既にフィールドにあるカードは置けない
             }
-            GameManager.instance.ReduceManaCost(card.cardModel.cost, true);
-            card.cardModel.isFieldCard = true;
+            card.OnField(true);    // フィールドにカードを出した時によぶ関数
         }
     }
 }
