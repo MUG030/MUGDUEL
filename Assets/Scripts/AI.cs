@@ -35,7 +35,7 @@ public class AI : MonoBehaviour
             // スペルカードなら使用する
             if (selectCard.IsSpell)
             {
-                CastSpellOf(selectCard);
+                StartCoroutine(CastSpellOf(selectCard));
             }
             else
             {
@@ -96,17 +96,36 @@ public class AI : MonoBehaviour
         gameManager.ChangeTurn();
     }
 
-    private void CastSpellOf(CardController card)
+    private IEnumerator CastSpellOf(CardController card)
     {
         CardController target = null;
-        if (card.cardModel.spell == SPELL.HEAL_FRIEND_CARD)
+        Transform movePosition = null;
+        switch (card.cardModel.spell)
         {
-            target = gameManager.GetFriendFieldCards(card.cardModel.isPlayerCard)[0];
+            case SPELL.DAMAGE_ENEMY_CARD:
+                target = gameManager.GetEnemyFieldCards(card.cardModel.isPlayerCard)[0];
+                movePosition = target.transform;
+                break;
+            case SPELL.HEAL_FRIEND_CARD:
+                target = gameManager.GetFriendFieldCards(card.cardModel.isPlayerCard)[0];
+                movePosition = target.transform;
+                break;
+            case SPELL.DAMAGE_ENEMY_CARDS:
+                movePosition = gameManager.playerFieldTransform;
+                break;
+            case SPELL.HEAL_FRIEND_CARDS:
+                movePosition = gameManager.enemyFieldTransform;
+                break;
+            case SPELL.DAMAGE_ENEMY_HERO:
+                movePosition = gameManager.playerHero;
+                break;
+            case SPELL.HEAL_FRIEND_HERO:
+                movePosition = gameManager.enemyHero;
+                break;
         }
-        if (card.cardModel.spell == SPELL.DAMAGE_ENEMY_CARD)
-        {
-            target = gameManager.GetEnemyFieldCards(card.cardModel.isPlayerCard)[0];
-        }
-        card.UseSpellTo(target);
+        // 移動先としてターゲット/それぞれのフィールド/それぞれのHeroのTransformが必要
+        StartCoroutine(card.cardMovement.MoveToField(movePosition));
+        yield return new WaitForSeconds(0.25f);
+        card.UseSpellTo(target);  // カードを使用したら破壊する．
     }
 }
