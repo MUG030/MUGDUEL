@@ -79,6 +79,11 @@ public class CardController : MonoBehaviour
         }
     }
 
+    /*
+     *敵が居ないのに攻撃しようとしている ＝＞ 敵AIのチェックと同様にする
+
+        */ 
+
     public void UseSpellTo(CardController targetCard)
     {
         if (cardModel.spell == SPELL.NONE)

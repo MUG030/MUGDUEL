@@ -25,6 +25,11 @@ public class DropPlace : MonoBehaviour, IDropHandler
             {
                 return;     // ドラッグできないカードは置けない
             }
+
+            if (card.IsSpell)
+            {
+                return;     // スペルカードは置けない
+            }
             card.cardMovement.defaltParent = this.transform;
             if(card.cardModel.isFieldCard)
             {
