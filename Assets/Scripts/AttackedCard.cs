@@ -26,7 +26,7 @@ public class AttackedCard : MonoBehaviour, IDropHandler
         // defenderカードを選択(Playerフィールドから選択)
         // CardController defender = GetComponent<CardController>();
 
-        CardController[] enemyFieldCards = GameManager.instance.GetEnemyFieldCards();
+        CardController[] enemyFieldCards = GameManager.instance.GetEnemyFieldCards(attacker.cardModel.isPlayerCard);
         if (Array.Exists(enemyFieldCards, card => card.cardModel.ability == ABILITY.SHIELD) && defender.cardModel.ability != ABILITY.SHIELD)
         {
             Debug.Log("盾がある");

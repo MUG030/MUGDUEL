@@ -154,9 +154,16 @@ public class GameManager : MonoBehaviour
         ChangeTurn();
     }
 
-    public CardController[] GetEnemyFieldCards()
+    public CardController[] GetEnemyFieldCards(bool isPlayer)
     {
-        return enemyFieldTransform.GetComponentsInChildren<CardController>();
+        if (isPlayer)
+        {
+            return enemyFieldTransform.GetComponentsInChildren<CardController>();
+        }
+        else
+        {
+            return playerFieldTransform.GetComponentsInChildren<CardController>();
+        }        
     }
 
     public void OnClickTurnEnd()

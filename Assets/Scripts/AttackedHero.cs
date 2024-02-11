@@ -17,7 +17,7 @@ public class AttackedHero : MonoBehaviour, IDropHandler
         {
             return;
         }
-        CardController[] enemyFieldCards = GameManager.instance.GetEnemyFieldCards();
+        CardController[] enemyFieldCards = GameManager.instance.GetEnemyFieldCards(attacker.cardModel.isPlayerCard);
         if (Array.Exists(enemyFieldCards, card => card.cardModel.ability == ABILITY.SHIELD))
         {
             Debug.Log("盾がある");
