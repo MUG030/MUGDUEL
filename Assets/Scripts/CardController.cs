@@ -147,6 +147,7 @@ public class CardController : MonoBehaviour
                 gameManager.HealToHero(this);
                 break;
         }
+        gameManager.ReduceManaCost(cardModel.cost, cardModel.isPlayerCard);
         Destroy(this.gameObject);
     }
 
