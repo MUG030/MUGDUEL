@@ -13,14 +13,17 @@ public class CardView : MonoBehaviour
     [SerializeField] Image iconImage;
     [SerializeField] GameObject selectablePanel;
     [SerializeField] GameObject shieldPanel;
+    [SerializeField] GameObject maskPanel;
 
-    public void Show(CardModel cardModel)
+    public void SetCard(CardModel cardModel)
     {
         nameText.text = cardModel.name;
         hpText.text = cardModel.hp.ToString();
         atkText.text = cardModel.atk.ToString();
         costText.text = cardModel.cost.ToString();
         iconImage.sprite = cardModel.icon;
+        maskPanel.SetActive(!cardModel.isPlayerCard);
+
         if (cardModel.ability == ABILITY.SHIELD)
         {
             shieldPanel.SetActive(true);
@@ -34,6 +37,11 @@ public class CardView : MonoBehaviour
         {
             hpText.gameObject.SetActive(false);
         }
+    }
+
+    public void Show()
+    {
+        maskPanel.SetActive(false);
     }
 
     public void Refresh(CardModel cardModel)

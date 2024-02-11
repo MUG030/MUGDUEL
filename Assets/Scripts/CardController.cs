@@ -26,7 +26,7 @@ public class CardController : MonoBehaviour
     public void Init(int cardID, bool isPlayer)
     {
         cardModel = new CardModel(cardID, isPlayer);
-        cardView.Show(cardModel);
+        cardView.SetCard(cardModel);
     }
 
     /// <summary>
@@ -43,6 +43,11 @@ public class CardController : MonoBehaviour
     {
         cardModel.Heal(friendCard);
         friendCard.RefreshView();
+    }
+
+    public void Show()
+    {
+        cardView.Show();
     }
 
     public void RefreshView()

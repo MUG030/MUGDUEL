@@ -32,6 +32,8 @@ public class AI : MonoBehaviour
             CardController[] selectableHandCardList = Array.FindAll(handCardList, card => card.cardModel.cost <= gameManager.enemy.manaCost && (!card.IsSpell || (card.IsSpell && card.CanUseSpell())) );
             // 場に出すカードを選択
             CardController selectCard = selectableHandCardList[0];
+            // カードを表にする
+            selectCard.Show();
             // スペルカードなら使用する
             if (selectCard.IsSpell)
             {
