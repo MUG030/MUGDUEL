@@ -98,6 +98,10 @@ public class CardController : MonoBehaviour
                 {
                     return;
                 }
+                if (targetCard.cardModel.isPlayerCard == cardModel.isPlayerCard)
+                {
+                    return;
+                }
                 Attack(targetCard);
                 targetCard.CheckAlive();
                 break;
@@ -120,6 +124,10 @@ public class CardController : MonoBehaviour
             case SPELL.HEAL_FRIEND_CARD:
                 // 特定の味方カードを回復
                 if (targetCard == null)
+                {
+                    return;
+                }
+                if (targetCard.cardModel.isPlayerCard != cardModel.isPlayerCard)
                 {
                     return;
                 }
