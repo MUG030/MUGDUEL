@@ -116,6 +116,10 @@ public class CardController : MonoBehaviour
                     Heal(playerCard);
                 }
                 break;
+            case SPELL.HEAL_FRIEND_HERO:
+                // 味方プレイヤーを回復
+                gameManager.HealToHero(this);
+                break;
         }
         Destroy(this.gameObject);
     }

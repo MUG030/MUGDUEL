@@ -256,6 +256,19 @@ public class GameManager : MonoBehaviour
         attacker.SetCanAttack(false);
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
     }
+
+    public void HealToHero(CardController healer)
+    {
+        if (healer.cardModel.isPlayerCard)
+        {
+            player.heroHp += healer.cardModel.atk;
+        }
+        else
+        {
+            enemy.heroHp += healer.cardModel.atk;
+        }
+        uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
+    }
     public void CheckHeroHP()
     {
         if (player.heroHp <= 0 || enemy.heroHp <= 0)

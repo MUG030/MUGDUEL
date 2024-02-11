@@ -2384,6 +2384,7 @@ GameObject:
   - component: {fileID: 1767790094}
   - component: {fileID: 1767790096}
   - component: {fileID: 1767790097}
+  - component: {fileID: 1767790098}
   m_Layer: 5
   m_Name: Hero
   m_TagString: Untagged
@@ -2478,6 +2479,18 @@ MonoBehaviour:
   heroHp: 10
   manaCost: 10
   defaultManaCost: 10
+--- !u!114 &1767790098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767790092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d482b0cb2f0520b49b03c9bc988706b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1830939966
 GameObject:
   m_ObjectHideFlags: 0
