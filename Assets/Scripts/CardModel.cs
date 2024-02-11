@@ -43,6 +43,10 @@ public class CardModel
         }
     }
 
+    /// <summary>
+    /// カードを攻撃する処理の実装
+    /// </summary>
+    /// <param name="card"></param>
     public void Attack(CardController card)
     {
         card.cardModel.Damage(atk);

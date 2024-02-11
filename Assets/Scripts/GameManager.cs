@@ -230,9 +230,9 @@ public class GameManager : MonoBehaviour
         defender.CheckAlive();
     }
 
-    public void AttackToHero(CardController attacker, bool isPlayerCard)
+    public void AttackToHero(CardController attacker)
     {
-        if (isPlayerCard)
+        if (attacker.cardModel.isPlayerCard)
         {
             enemy.heroHp -= attacker.cardModel.atk;
         }

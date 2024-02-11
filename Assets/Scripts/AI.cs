@@ -74,7 +74,7 @@ public class AI : MonoBehaviour
             {
                 StartCoroutine(attacker.cardMovement.MoveToTarget(gameManager.playerHero));
                 yield return new WaitForSeconds(0.25f);
-                gameManager.AttackToHero(attacker, false);
+                gameManager.AttackToHero(attacker);
                 yield return new WaitForSeconds(0.25f);
                 gameManager.CheckHeroHP();
             }

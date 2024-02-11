@@ -10,10 +10,12 @@ public class CardController : MonoBehaviour
     public CardMovement cardMovement;  // 移動(Movement)に関する事を操作
     // 全部処理するとややこしくなるため，別のクラスで管理する
 
+    GameManager gameManager;
     private void Awake()
     {
         cardView = GetComponent<CardView>();
         cardMovement = GetComponent<CardMovement>();
+        gameManager = GameManager.instance;
     }
 
     public void Init(int cardID, bool isPlayer)
@@ -22,6 +24,10 @@ public class CardController : MonoBehaviour
         cardView.Show(cardModel);
     }
 
+    /// <summary>
+    /// カードを攻撃する関数の呼び出し
+    /// </summary>
+    /// <param name="enemyCard"></param>
     public void Attack(CardController enemyCard)
     {
         cardModel.Attack(enemyCard);
@@ -72,7 +78,7 @@ public class CardController : MonoBehaviour
                 break;
             case SPELL.DAMAGE_ENEMY_CARDS:
                 // 相手フィールドの全てのカードを攻撃
-                CardController[] enemyCards = GameManager.instance.GetEnemyFieldCards(this.cardModel.isPlayerCard);
+                CardController[] enemyCards = gameManager.GetEnemyFieldCards(this.cardModel.isPlayerCard);
                 foreach (CardController enemyCard in enemyCards)
                 {
                     Attack(enemyCard);
@@ -83,6 +89,8 @@ public class CardController : MonoBehaviour
                 }
                 break;
             case SPELL.DAMAGE_ENEMY_HERO:
+                // 相手プレイヤーを攻撃
+                gameManager.AttackToHero(this);
                 break;
             case SPELL.HEAL_FRIEND_CARD:
                 break;
