@@ -59,6 +59,10 @@ public class CardController : MonoBehaviour
 
     public void UseSpellTo(CardController targetCard)
     {
+        if (cardModel.spell == SPELL.NONE)
+        {
+            return;
+        }
         switch (cardModel.spell)
         {
             case SPELL.DAMAGE_ENEMY_CARD:
@@ -74,8 +78,7 @@ public class CardController : MonoBehaviour
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
                 break;
-            case SPELL.HEAL_FRIEND_HERO:
-                break;
         }
+        Destroy(this.gameObject);
     }
 }
