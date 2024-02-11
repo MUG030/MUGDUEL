@@ -43,6 +43,11 @@ public class CardModel
         }
     }
 
+    private void RecoveryHP(int heal)
+    {
+        hp += heal;
+    }
+
     /// <summary>
     /// カードを攻撃する処理の実装
     /// </summary>
@@ -50,6 +55,11 @@ public class CardModel
     public void Attack(CardController card)
     {
         card.cardModel.Damage(atk);
+    }
+
+    public void Heal(CardController card)
+    {
+        card.cardModel.RecoveryHP(atk);
     }
 
 }

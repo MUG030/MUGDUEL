@@ -34,6 +34,17 @@ public class CardController : MonoBehaviour
         SetCanAttack(false);
     }
 
+    public void Heal(CardController friendCard)
+    {
+        cardModel.Heal(friendCard);
+        friendCard.RefreshView();
+    }
+
+    public void RefreshView()
+    {
+        cardView.Refresh(cardModel);
+    }
+
     public void SetCanAttack(bool canAttack)
     {
         cardModel.canAttack = canAttack;
@@ -55,7 +66,7 @@ public class CardController : MonoBehaviour
     {
         if (cardModel.isAlive)
         {
-            cardView.Refresh(cardModel);
+            RefreshView();
         }
         else
         {
@@ -93,6 +104,8 @@ public class CardController : MonoBehaviour
                 gameManager.AttackToHero(this);
                 break;
             case SPELL.HEAL_FRIEND_CARD:
+                // 特定の味方カードを回復
+                Heal(targetCard);
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
                 break;
