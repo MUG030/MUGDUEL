@@ -30,7 +30,7 @@ public class DropPlace : MonoBehaviour, IDropHandler
             {
                 return;     // 既にフィールドにあるカードは置けない
             }
-            card.OnField(true);    // フィールドにカードを出した時によぶ関数
+            card.OnField();    // フィールドにカードを出した時によぶ関数
         }
     }
 }

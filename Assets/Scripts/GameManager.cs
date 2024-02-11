@@ -166,6 +166,19 @@ public class GameManager : MonoBehaviour
         }        
     }
 
+    public CardController[] GetFriendFieldCards(bool isPlayer)
+    {
+        if (isPlayer)
+        {
+            return playerFieldTransform.GetComponentsInChildren<CardController>();
+        }
+        else
+        {
+            return enemyFieldTransform.GetComponentsInChildren<CardController>();
+        }        
+    }
+
+
     public void OnClickTurnEnd()
     {
         if (isPlayerTurn)

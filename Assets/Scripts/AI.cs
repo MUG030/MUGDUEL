@@ -32,7 +32,7 @@ public class AI : MonoBehaviour
             CardController enemyCard = selectableHandCardList[0];
             // カードを移動
             StartCoroutine(enemyCard.cardMovement.MoveToField(gameManager.enemyFieldTransform));
-            enemyCard.OnField(false);
+            enemyCard.OnField();
             handCardList = gameManager.enemyHandTransform.GetComponentsInChildren<CardController>();
             yield return new WaitForSeconds(1);
         }

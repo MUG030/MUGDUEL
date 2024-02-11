@@ -52,9 +52,9 @@ public class CardController : MonoBehaviour
     }
 
     // フィールドにカードを出した時によぶ関数
-    public void OnField(bool isPlayer)
+    public void OnField()
     {
-        GameManager.instance.ReduceManaCost(cardModel.cost, isPlayer);
+        GameManager.instance.ReduceManaCost(cardModel.cost, cardModel.isPlayerCard);
         cardModel.isFieldCard = true;
         if (cardModel.ability == ABILITY.INIT_ATTACKABLE)
         {
@@ -108,6 +108,13 @@ public class CardController : MonoBehaviour
                 Heal(targetCard);
                 break;
             case SPELL.HEAL_FRIEND_CARDS:
+                // 味方フィールドの全てのカードを回復
+                // 配列の中身をすべて回復
+                CardController[] playerCards = gameManager.GetFriendFieldCards(this.cardModel.isPlayerCard);
+                foreach (CardController playerCard in playerCards)
+                {
+                    Heal(playerCard);
+                }
                 break;
         }
         Destroy(this.gameObject);
