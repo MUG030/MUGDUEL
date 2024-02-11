@@ -6,7 +6,8 @@ using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public GamePlayerManager player;
+    public GamePlayerManager enemy;
     [SerializeField] AI enemyAI;
     [SerializeField] UIManager uiManager;
 
@@ -18,18 +19,7 @@ public class GameManager : MonoBehaviour
 
     public bool isPlayerTurn;
 
-    List<int> playerDeck = new List<int>() { 3, 1, 2, 2 , 3},
-              enemyDeck  = new List<int>() { 2, 1, 3, 1 , 3};
-
-    int playerHeroHp;
-    int enemyHeroHp;
-
     public Transform playerHero;
-
-    public int playerManaCost;
-    public int enemyManaCost;
-    int playerDefaultManaCost;
-    int enemyDefaultManaCost;
 
     int timeCount;
 
@@ -51,15 +41,13 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         uiManager.HideResultPanel();
-        playerHeroHp = 10;
-        enemyHeroHp = 10;
-        playerManaCost = playerDefaultManaCost = 10;
-        enemyManaCost = enemyDefaultManaCost = 10;
-        uiManager.ShowHeroHP(playerHeroHp, enemyHeroHp);
+        player.Init(new List<int> { 3, 1, 5, 4, 3 });
+        enemy.Init(new List<int> { 2, 1, 3, 1,  });
+        uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
-        uiManager.ShowManaCost(playerManaCost, enemyManaCost);
+        uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
     }
 
 
@@ -67,13 +55,13 @@ public class GameManager : MonoBehaviour
     {
         if (isPlayerCard)
         {
-            playerManaCost -= cost;
+            player.manaCost -= cost;
         }
         else
         {
-            enemyManaCost -= cost;
+            enemy.manaCost -= cost;
         }
-        uiManager.ShowManaCost(playerManaCost, enemyManaCost);
+        uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
     }
 
     public void Restart()
@@ -98,8 +86,8 @@ public class GameManager : MonoBehaviour
 
 
         // デッキを生成
-        playerDeck = new List<int>() { 3, 1, 2, 2, 3 };
-        enemyDeck = new List<int>() { 2, 1, 3, 1, 3 };
+        player.deck = new List<int>() { 3, 1, 2, 2, 3 };
+        enemy.deck = new List<int>() { 2, 1, 3, 1, 3 };
 
         StartGame();
     }
@@ -109,8 +97,8 @@ public class GameManager : MonoBehaviour
         // カードをそれぞれに3まい配る
         for (int i = 0; i < 3; i++)
         {
-            GiveCardToHand(playerDeck, playerHandTransform);
-            GiveCardToHand(enemyDeck, enemyHandTransform);
+            GiveCardToHand(player.deck, playerHandTransform);
+            GiveCardToHand(enemy.deck, enemyHandTransform);
         }
     }
     void GiveCardToHand(List<int> deck, Transform hand)
@@ -192,17 +180,15 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            playerDefaultManaCost++;
-            playerManaCost = playerDefaultManaCost;
-            GiveCardToHand(playerDeck, playerHandTransform);
+            player.IncreaseManaCost();
+            GiveCardToHand(player.deck, playerHandTransform);
         }
         else
         {
-            enemyDefaultManaCost++;
-            enemyManaCost = enemyDefaultManaCost;
-            GiveCardToHand(enemyDeck, enemyHandTransform);
+            enemy.IncreaseManaCost();
+            GiveCardToHand(enemy.deck, enemyHandTransform);
         }
-        uiManager.ShowManaCost(playerManaCost, enemyManaCost);
+        uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
         TurnCalc();
     }
 
@@ -241,20 +227,20 @@ public class GameManager : MonoBehaviour
     {
         if (isPlayerCard)
         {
-            enemyHeroHp -= attacker.cardModel.atk;
+            enemy.heroHp -= attacker.cardModel.atk;
         }
         else
         {
-            playerHeroHp -= attacker.cardModel.atk;
+            player.heroHp -= attacker.cardModel.atk;
         }
         attacker.SetCanAttack(false);
-        uiManager.ShowHeroHP(playerHeroHp, enemyHeroHp);
+        uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
     }
     public void CheckHeroHP()
     {
-        if (playerHeroHp <= 0 || enemyHeroHp <= 0)
+        if (player.heroHp <= 0 || enemy.heroHp <= 0)
         {
-            ShowResultPanel(playerHeroHp);
+            ShowResultPanel(player.heroHp);
         }
     }
     void ShowResultPanel(int heroHp)

@@ -12,6 +12,7 @@ public class CardModel
     public int cost;
     public Sprite icon;
     public ABILITY ability;
+    public SPELL spell;
 
     public bool isAlive;
     public bool canAttack;
@@ -29,6 +30,7 @@ public class CardModel
         ability = cardEntity.ability;
         isAlive = true;
         isPlayerCard = isPlayer;
+        spell = cardEntity.spel;
     }
 
     private void Damage(int dmg)
