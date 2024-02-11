@@ -12,6 +12,7 @@ public class CardView : MonoBehaviour
     [SerializeField] TextMeshProUGUI costText;
     [SerializeField] Image iconImage;
     [SerializeField] GameObject selectablePanel;
+    [SerializeField] GameObject shieldPanel;
 
     public void Show(CardModel cardModel)
     {
@@ -20,6 +21,14 @@ public class CardView : MonoBehaviour
         atkText.text = cardModel.atk.ToString();
         costText.text = cardModel.cost.ToString();
         iconImage.sprite = cardModel.icon;
+        if (cardModel.ability == ABILITY.SHIELD)
+        {
+            shieldPanel.SetActive(true);
+        }
+        else
+        {
+            shieldPanel.SetActive(false);
+        }
     }
 
     public void Refresh(CardModel cardModel)
