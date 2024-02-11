@@ -11,6 +11,11 @@ public class CardController : MonoBehaviour
     // 全部処理するとややこしくなるため，別のクラスで管理する
 
     GameManager gameManager;
+
+    public bool IsSpell
+    {
+        get { return cardModel.spell != SPELL.NONE; }
+    }
     private void Awake()
     {
         cardView = GetComponent<CardView>();
@@ -122,5 +127,39 @@ public class CardController : MonoBehaviour
                 break;
         }
         Destroy(this.gameObject);
+    }
+
+    public bool CanUseSpell()
+    {
+        if (cardModel.spell == SPELL.NONE)
+        {
+            return false;
+        }
+        switch (cardModel.spell)
+        {
+            case SPELL.DAMAGE_ENEMY_CARD:
+            case SPELL.DAMAGE_ENEMY_CARDS:
+                // 相手フィールドの全てのカードを攻撃
+                CardController[] enemyCards = gameManager.GetEnemyFieldCards(this.cardModel.isPlayerCard);
+                if (enemyCards.Length > 0)
+                {
+                    return true;
+                }
+                return false;
+            case SPELL.DAMAGE_ENEMY_HERO:
+            case SPELL.HEAL_FRIEND_HERO:
+            case SPELL.HEAL_FRIEND_CARD:
+                return true;
+            case SPELL.HEAL_FRIEND_CARDS:
+                // 味方フィールドの全てのカードを回復
+                // 配列の中身をすべて回復
+                CardController[] playerCards = gameManager.GetFriendFieldCards(this.cardModel.isPlayerCard);
+                if (playerCards.Length > 0)
+                {
+                    return true;
+                }
+                return false;
+        }
+        return false;
     }
 }

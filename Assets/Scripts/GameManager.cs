@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         uiManager.HideResultPanel();
         player.Init(new List<int> { 3, 1, 5, 4, 3 });
-        enemy.Init(new List<int> { 2, 1, 3, 1,  });
+        enemy.Init(new List<int> { 2, 1, 5, 1, 3 });
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
         SettingInitHand();
         isPlayerTurn = true;
