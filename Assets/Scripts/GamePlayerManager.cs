@@ -14,8 +14,8 @@ public class GamePlayerManager : MonoBehaviour
     {
         deck = cardDeck;
         heroHp = 10;
-        manaCost = 10;
-        defaultManaCost = 10;
+        manaCost = 3;
+        defaultManaCost = 3;
     }
 
     public void IncreaseManaCost()

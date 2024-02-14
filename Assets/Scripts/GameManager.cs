@@ -232,14 +232,9 @@ public class GameManager : MonoBehaviour
 
     public void CardsBattle(CardController attacker, CardController defender)
     {
-        Debug.Log("CardsBattle");
-        Debug.Log("attacker HP:" + attacker.cardModel.hp);
-        Debug.Log("defender HP:" + defender.cardModel.hp);
-
         attacker.Attack(defender);
         defender.Attack(attacker);
-        Debug.Log("attacker HP:" + attacker.cardModel.hp);
-        Debug.Log("defender HP:" + defender.cardModel.hp);
+        
         attacker.CheckAlive();
         defender.CheckAlive();
     }

@@ -75,7 +75,8 @@ public class AI : MonoBehaviour
                     playerFieldCardList = Array.FindAll(playerFieldCardList, card => card.cardModel.ability == ABILITY.SHIELD);
                 }
 
-                CardController defender = playerFieldCardList[0];
+                CardController defender = playerFieldCardList[UnityEngine.Random.Range(0, playerFieldCardList.Length)];
+                
                 // attackerとdefenderを戦わせる
                 StartCoroutine(attacker.cardMovement.MoveToTarget(defender.transform));
                 yield return new WaitForSeconds(0.51f);

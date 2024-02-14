@@ -62,6 +62,7 @@ public class CardController : MonoBehaviour
     }
 
     // フィールドにカードを出した時によぶ関数
+
     public void OnField()
     {
         GameManager.instance.ReduceManaCost(cardModel.cost, cardModel.isPlayerCard);
@@ -92,6 +93,10 @@ public class CardController : MonoBehaviour
     public void UseSpellTo(CardController targetCard)
     {
         if (cardModel.spell == SPELL.NONE)
+        {
+            return;
+        }
+        if (!cardMovement.isDraggable)
         {
             return;
         }
