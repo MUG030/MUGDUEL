@@ -17,6 +17,10 @@ public class SpellDropManager : MonoBehaviour, IDropHandler
         {
             return;
         }
+        if (!spellCard.cardMovement.isDraggable)
+        {
+            return;
+        }
         if (spellCard.CanUseSpell())
         {
             spellCard.UseSpellTo(targetCard);

@@ -42,8 +42,9 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         uiManager.HideResultPanel();
-        player.Init(new List<int> { 3, 1, 5, 4, 3 });
-        enemy.Init(new List<int> { 2, 1, 5, 1, 3 });
+        // そして、以下のようにプレイヤーと敵のデッキを初期化します：
+        player.Init(GenerateRandomDeck(5, 1, 5, 10));
+        enemy.Init(GenerateRandomDeck(5, 1, 5, 10));
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
         SettingInitHand();
         isPlayerTurn = true;
@@ -51,6 +52,41 @@ public class GameManager : MonoBehaviour
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
     }
 
+    /// <summary>
+    /// ランダムなデッキを生成する
+    /// </summary>
+    /// <param name="size"></param>
+    /// <param name="minValue"></param>
+    /// <param name="maxValue"></param>
+    /// <param name="maxDuplicates"></param>
+    /// <returns></returns>
+    private List<int> GenerateRandomDeck(int size, int minValue, int maxValue, int maxDuplicates)
+    {
+        List<int> deck = new List<int>();
+        Dictionary<int, int> counts = new Dictionary<int, int>();
+
+        for (int i = 0; i < size; i++)
+        {
+            int card;
+            do
+            {
+                card = UnityEngine.Random.Range(minValue, maxValue + 1);
+            } while (counts.ContainsKey(card) && counts[card] >= maxDuplicates);
+
+            deck.Add(card);
+
+            if (counts.ContainsKey(card))
+            {
+                counts[card]++;
+            }
+            else
+            {
+                counts.Add(card, 1);
+            }
+        }
+
+        return deck;
+    }
 
     public void ReduceManaCost(int cost, bool isPlayerCard)
     {
@@ -87,8 +123,8 @@ public class GameManager : MonoBehaviour
 
 
         // デッキを生成
-        player.deck = new List<int>() { 3, 1, 2, 2, 3 };
-        enemy.deck = new List<int>() { 2, 1, 3, 1, 3 };
+        player.deck = GenerateRandomDeck(5, 1, 5, 10);
+        enemy.deck = GenerateRandomDeck(5, 1, 5, 10);
 
         StartGame();
     }
@@ -234,7 +270,7 @@ public class GameManager : MonoBehaviour
     {
         attacker.Attack(defender);
         defender.Attack(attacker);
-        
+
         attacker.CheckAlive();
         defender.CheckAlive();
     }

@@ -96,10 +96,6 @@ public class CardController : MonoBehaviour
         {
             return;
         }
-        if (!cardMovement.isDraggable)
-        {
-            return;
-        }
         switch (cardModel.spell)
         {
             case SPELL.DAMAGE_ENEMY_CARD:
