@@ -17,6 +17,7 @@ public class SpellDropManager : MonoBehaviour, IDropHandler
         {
             return;
         }
+        // スペルカードをドラッグできるか判定
         if (!spellCard.cardMovement.isDraggable)
         {
             return;
