@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f093b09551e4146dc868b00fe6460ca7, type: 3}
-  m_Name: Card5
+  m_Name: Card6
   m_EditorClassIdentifier: 
-  name: SpelAttack
-  hp: 4
-  atk: 1
-  cost: 3
-  icon: {fileID: 21300000, guid: 4b36824b5aa39444c97f27159bf5e96f, type: 3}
+  name: DecreaseTime
+  hp: 0
+  atk: 5
+  cost: 1
+  icon: {fileID: 21300000, guid: 90843f6aa741ec64ea9f69e22236be9d, type: 3}
   ability: 0
-  spel: 1
+  spel: 7

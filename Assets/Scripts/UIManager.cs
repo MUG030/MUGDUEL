@@ -13,7 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerManaCostText;
     [SerializeField] TextMeshProUGUI enemyManaCostText;
     // 時間管理
-    [SerializeField] TextMeshProUGUI timeCountText;
+    [SerializeField] TextMeshProUGUI enemyTimeCountText;
+    [SerializeField] TextMeshProUGUI playerTimeCountText;
     // Start is called before the first frame update
     public void HideResultPanel()
     {
@@ -24,9 +25,10 @@ public class UIManager : MonoBehaviour
         playerManaCostText.text = playerManaCost.ToString();
         enemyManaCostText.text = enemyManaCost.ToString();
     }
-    public void UpDateTime(int timeCount)
+    public void UpDateTime(int enemyTimeCount, int playerTimeCount)
     {
-        timeCountText.text = timeCount.ToString();
+        enemyTimeCountText.text = enemyTimeCount.ToString();
+        playerTimeCountText.text = playerTimeCount.ToString();
     }
     
     public void ShowHeroHP(int playerHeroHp, int enemyHeroHp)

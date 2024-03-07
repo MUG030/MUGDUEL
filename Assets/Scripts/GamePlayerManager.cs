@@ -10,12 +10,15 @@ public class GamePlayerManager : MonoBehaviour
     public int manaCost;
     public int defaultManaCost;
 
+    public int heroTimeCount;
+
     public void Init(List<int> cardDeck)
     {
         deck = cardDeck;
         heroHp = 10;
         manaCost = 3;
         defaultManaCost = 3;
+        heroTimeCount = 30;
     }
 
     public void IncreaseManaCost()

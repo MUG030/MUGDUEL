@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     public Transform playerHero;
     public Transform enemyHero;
 
-    int timeCount;
+    private int defaltPlayerTimeCount,
+                defaultEnemyTimeCount;
 
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
@@ -42,10 +43,13 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         uiManager.HideResultPanel();
+        defaltPlayerTimeCount = player.heroTimeCount;
+        defaultEnemyTimeCount = enemy.heroTimeCount;
         // そして、以下のようにプレイヤーと敵のデッキを初期化します：
-        player.Init(GenerateRandomDeck(5, 1, 5, 10));
-        enemy.Init(GenerateRandomDeck(5, 1, 5, 10));
+        player.Init(GenerateRandomDeck(10, 1, 6, 3));
+        enemy.Init(GenerateRandomDeck(10, 1, 6, 3));
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
+        uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
@@ -123,8 +127,8 @@ public class GameManager : MonoBehaviour
 
 
         // デッキを生成
-        player.deck = GenerateRandomDeck(5, 1, 5, 10);
-        enemy.deck = GenerateRandomDeck(5, 1, 5, 10);
+        player.deck = GenerateRandomDeck(5, 1, 6, 10);
+        enemy.deck = GenerateRandomDeck(5, 1, 6, 10);
 
         StartGame();
     }
@@ -179,14 +183,24 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CountDown()
     {
-        timeCount = 20;
-        uiManager.UpDateTime(timeCount);
+        defaltPlayerTimeCount = player.heroTimeCount;
+        defaultEnemyTimeCount = enemy.heroTimeCount;
 
-        while (timeCount > 0)
+        uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
+
+        while (defaltPlayerTimeCount > 0 || defaultEnemyTimeCount > 0)
         {
             yield return new WaitForSeconds(1); // 1秒待機
-            timeCount--;
-            uiManager.UpDateTime(timeCount);
+            if (isPlayerTurn)
+            {
+                defaltPlayerTimeCount--;
+                uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
+            }
+            else
+            {
+                defaultEnemyTimeCount--;
+                uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
+            }
         }
         ChangeTurn();
     }
@@ -312,5 +326,21 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
         uiManager.ShowResultPanel(heroHp);
-    }  
+    }
+
+    public void DecreseTime(int decreseTime)
+    {
+        if (isPlayerTurn)
+        {
+            enemy.heroTimeCount -= decreseTime;
+            defaultEnemyTimeCount = enemy.heroTimeCount;
+            uiManager.UpDateTime(enemy.heroTimeCount, defaltPlayerTimeCount);
+        }
+        else
+        {
+            player.heroTimeCount -= decreseTime;
+            defaltPlayerTimeCount = player.heroTimeCount;
+            uiManager.UpDateTime(defaultEnemyTimeCount, player.heroTimeCount);
+        }
+    }
 }

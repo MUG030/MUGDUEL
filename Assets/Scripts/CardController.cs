@@ -152,6 +152,9 @@ public class CardController : MonoBehaviour
                 // 味方プレイヤーを回復
                 gameManager.HealToHero(this);
                 break;
+            case SPELL.DECREASE_TIME:
+                gameManager.DecreseTime(5);
+                break;
         }
         gameManager.ReduceManaCost(cardModel.cost, cardModel.isPlayerCard);
         Destroy(this.gameObject);
@@ -177,6 +180,7 @@ public class CardController : MonoBehaviour
             case SPELL.DAMAGE_ENEMY_HERO:
             case SPELL.HEAL_FRIEND_HERO:
             case SPELL.HEAL_FRIEND_CARD:
+            case SPELL.DECREASE_TIME:
                 return true;
             case SPELL.HEAL_FRIEND_CARDS:
                 // 味方フィールドの全てのカードを回復
