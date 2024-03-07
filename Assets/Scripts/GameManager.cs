@@ -343,4 +343,20 @@ public class GameManager : MonoBehaviour
             uiManager.UpDateTime(defaultEnemyTimeCount, player.heroTimeCount);
         }
     }
+
+    public void IncreaseTime(int increaseTime)
+    {
+        if (isPlayerTurn)
+        {
+            player.heroTimeCount += increaseTime;
+            defaltPlayerTimeCount = player.heroTimeCount;
+            uiManager.UpDateTime(defaultEnemyTimeCount, player.heroTimeCount);
+        }
+        else
+        {
+            enemy.heroTimeCount += increaseTime;
+            defaultEnemyTimeCount = enemy.heroTimeCount;
+            uiManager.UpDateTime(enemy.heroTimeCount, defaltPlayerTimeCount);
+        }
+    }
 }
