@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI enemyHeroHpText;
     [SerializeField] TextMeshProUGUI playerManaCostText;
     [SerializeField] TextMeshProUGUI enemyManaCostText;
+    [SerializeField] TextMeshProUGUI playerDeckCountText;
+    [SerializeField] TextMeshProUGUI enemyDeckCountText;
     // 時間管理
     [SerializeField] TextMeshProUGUI enemyTimeCountText;
     [SerializeField] TextMeshProUGUI playerTimeCountText;
@@ -25,6 +27,19 @@ public class UIManager : MonoBehaviour
         playerManaCostText.text = playerManaCost.ToString();
         enemyManaCostText.text = enemyManaCost.ToString();
     }
+
+    public void ShowDeckCount(int playerDeckCount, int enemyDeckCount)
+    {
+        playerDeckCountText.text = playerDeckCount.ToString();
+        enemyDeckCountText.text = enemyDeckCount.ToString();
+    }
+
+    public void UpdateDeckCount(int playerDeckCount, int enemyDeckCount)
+    {
+        playerDeckCountText.text = playerDeckCount.ToString();
+        enemyDeckCountText.text = enemyDeckCount.ToString();
+    }
+
     public void UpDateTime(int enemyTimeCount, int playerTimeCount)
     {
         enemyTimeCountText.text = enemyTimeCount.ToString();

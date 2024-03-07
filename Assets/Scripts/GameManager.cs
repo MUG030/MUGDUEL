@@ -46,14 +46,24 @@ public class GameManager : MonoBehaviour
         defaltPlayerTimeCount = player.heroTimeCount;
         defaultEnemyTimeCount = enemy.heroTimeCount;
         // そして、以下のようにプレイヤーと敵のデッキを初期化します：
-        player.Init(GenerateRandomDeck(10, 1, 6, 3));
-        enemy.Init(GenerateRandomDeck(10, 1, 6, 3));
+        DisplayDeckCount();
+        // player.Init(GenerateRandomDeck(10, 1, 6, 3));
+        // enemy.Init(GenerateRandomDeck(10, 1, 6, 3));
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
         uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
+    }
+
+    public void DisplayDeckCount()
+    {
+        List<int> playerDeck = GenerateRandomDeck(10, 1, 6, 3);
+        List<int> enemyDeck = GenerateRandomDeck(10, 1, 6, 3);
+
+        player.Init(playerDeck);
+        enemy.Init(enemyDeck);
     }
 
     /// <summary>
@@ -88,6 +98,8 @@ public class GameManager : MonoBehaviour
                 counts.Add(card, 1);
             }
         }
+
+        uiManager.ShowDeckCount(player.deck.Count, enemy.deck.Count);
 
         return deck;
     }
@@ -127,8 +139,9 @@ public class GameManager : MonoBehaviour
 
 
         // デッキを生成
-        player.deck = GenerateRandomDeck(5, 1, 6, 10);
-        enemy.deck = GenerateRandomDeck(5, 1, 6, 10);
+        DisplayDeckCount();
+        // player.deck = GenerateRandomDeck(5, 1, 6, 10);
+        // enemy.deck = GenerateRandomDeck(5, 1, 6, 10);
 
         StartGame();
     }
@@ -151,6 +164,7 @@ public class GameManager : MonoBehaviour
         int cardID = deck[0];
         deck.RemoveAt(0);
         CreateCard(cardID, hand);
+        uiManager.ShowDeckCount(player.deck.Count, enemy.deck.Count);
     }
 
     void CreateCard(int cardID, Transform hand)
@@ -315,6 +329,8 @@ public class GameManager : MonoBehaviour
         }
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
     }
+
+    // ヒーローのHPをチェック
     public void CheckHeroHP()
     {
         if (player.heroHp <= 0 || enemy.heroHp <= 0)
@@ -322,6 +338,8 @@ public class GameManager : MonoBehaviour
             ShowResultPanel(player.heroHp);
         }
     }
+
+    // 結果を表示する
     void ShowResultPanel(int heroHp)
     {
         StopAllCoroutines();
@@ -358,5 +376,19 @@ public class GameManager : MonoBehaviour
             defaultEnemyTimeCount = enemy.heroTimeCount;
             uiManager.UpDateTime(enemy.heroTimeCount, defaltPlayerTimeCount);
         }
+    }
+
+    public void DecreaseDeck(int decreseDeck)
+    {
+        Debug.Log("Decrease deck");
+        if (isPlayerTurn)
+        {
+            enemy.deck.RemoveAt(decreseDeck);
+        }
+        else
+        {
+            player.deck.RemoveAt(decreseDeck);
+        }
+        uiManager.ShowDeckCount(player.deck.Count, enemy.deck.Count);
     }
 }

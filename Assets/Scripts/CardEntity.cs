@@ -33,4 +33,5 @@ public enum SPELL
     HEAL_FRIEND_HERO,
     DECREASE_TIME,
     INCREASE_TIME,
+    DECREASE_DECK,
 }
