@@ -34,4 +34,5 @@ public enum SPELL
     DECREASE_TIME,
     INCREASE_TIME,
     DECREASE_DECK,
+    DRAW_CARDS,
 }

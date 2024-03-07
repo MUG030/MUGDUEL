@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
 
     public void DisplayDeckCount()
     {
-        List<int> playerDeck = GenerateRandomDeck(10, 1, 6, 3);
-        List<int> enemyDeck = GenerateRandomDeck(10, 1, 6, 3);
+        List<int> playerDeck = GenerateRandomDeck(10, 1, 7, 3);
+        List<int> enemyDeck = GenerateRandomDeck(10, 1, 7, 3);
 
         player.Init(playerDeck);
         enemy.Init(enemyDeck);
@@ -80,13 +80,18 @@ public class GameManager : MonoBehaviour
         List<int> deck = new List<int>();
         Dictionary<int, int> counts = new Dictionary<int, int>();
 
-        for (int i = 0; i < size; i++)
+        /*
+        deck.Add(7);
+        counts.Add(7, 1);
+        */
+
+        for (int i = 0; i < size /* - 1*/ ; i++)
         {
             int card;
             do
             {
                 card = UnityEngine.Random.Range(minValue, maxValue + 1);
-            } while (counts.ContainsKey(card) && counts[card] >= maxDuplicates);
+            } while (counts.ContainsKey(card) && counts[card] >= maxDuplicates /*|| card == 7*/);
 
             deck.Add(card);
 
@@ -437,5 +442,22 @@ public class GameManager : MonoBehaviour
             player.deck.RemoveAt(decreseDeck);
         }
         uiManager.ShowDeckCount(player.deck.Count, enemy.deck.Count);
+    }
+
+
+    // デッキからdrawCards枚引く
+    public void DrawCards(int drawCards)
+    {
+        for (int i = 0; i < drawCards; i++)
+        {
+            if (isPlayerTurn)
+            {
+                GiveCardToHand(player.deck, playerHandTransform);
+            }
+            else
+            {
+                GiveCardToHand(enemy.deck, enemyHandTransform);
+            }
+        }
     }
 }

@@ -134,6 +134,9 @@ public class AI : MonoBehaviour
             case SPELL.DECREASE_DECK:
                 movePosition = gameManager.playerFieldTransform;
                 break;
+            case SPELL.DRAW_CARDS:
+                movePosition = gameManager.enemyFieldTransform;
+                break;
         }
         // 移動先としてターゲット/それぞれのフィールド/それぞれのHeroのTransformが必要
         StartCoroutine(card.cardMovement.MoveToField(movePosition));
