@@ -125,6 +125,15 @@ public class AI : MonoBehaviour
             case SPELL.HEAL_FRIEND_HERO:
                 movePosition = gameManager.enemyHero;
                 break;
+            case SPELL.DECREASE_TIME:
+                movePosition = gameManager.playerFieldTransform;
+                break;
+            case SPELL.INCREASE_TIME:
+                movePosition = gameManager.enemyFieldTransform;
+                break;
+            case SPELL.DECREASE_DECK:
+                movePosition = gameManager.playerFieldTransform;
+                break;
         }
         // 移動先としてターゲット/それぞれのフィールド/それぞれのHeroのTransformが必要
         StartCoroutine(card.cardMovement.MoveToField(movePosition));

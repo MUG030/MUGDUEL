@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public Transform playerHero;
     public Transform enemyHero;
 
+
     private int defaltPlayerTimeCount,
                 defaultEnemyTimeCount;
 
@@ -202,21 +203,27 @@ public class GameManager : MonoBehaviour
 
         uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
 
-        while (defaltPlayerTimeCount > 0 || defaultEnemyTimeCount > 0)
+        if (isPlayerTurn)
         {
-            yield return new WaitForSeconds(1); // 1秒待機
-            if (isPlayerTurn)
+            while (defaltPlayerTimeCount > 0)
             {
+                yield return new WaitForSeconds(1); // 1秒待機
                 defaltPlayerTimeCount--;
                 uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
             }
-            else
+            ChangeTurn();
+        }
+        else
+        {
+            while (defaultEnemyTimeCount > 0)
             {
+                yield return new WaitForSeconds(1); // 1秒待機
                 defaultEnemyTimeCount--;
                 uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
             }
+            ChangeTurn();
         }
-        ChangeTurn();
+        
     }
 
     public CardController[] GetEnemyFieldCards(bool isPlayer)
@@ -257,6 +264,14 @@ public class GameManager : MonoBehaviour
     {
         isPlayerTurn = !isPlayerTurn;
 
+        CheckDeckCount();
+        CheckDefaultTime();
+
+        if (player.heroTimeCount == 0 || enemy.heroTimeCount == 0)
+        {
+            return;
+        }
+
         CardController[] playerFieldCardList = playerFieldTransform.GetComponentsInChildren<CardController>();
         SettingCanAttackView(playerFieldCardList, false);
         CardController[] enemyFieldCardList = enemyFieldTransform.GetComponentsInChildren<CardController>();
@@ -274,6 +289,7 @@ public class GameManager : MonoBehaviour
             GiveCardToHand(enemy.deck, enemyHandTransform);
         }
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
+        
         TurnCalc();
     }
 
@@ -339,11 +355,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // カードの枚数をチェック
+    public void CheckDeckCount()
+    {
+        if (isPlayerTurn)
+        {
+            if (player.deck.Count == 0)
+            {
+                ShowResultPanel(player.deck.Count);
+            }
+        }
+        else
+        {
+            if (enemy.deck.Count == 0)
+            {
+                ShowResultPanel(player.deck.Count);
+            }
+        }
+    }
+
+    // defaulrTimeをチェック
+    public void CheckDefaultTime()
+    {
+        Debug.Log("CheckDefaultTime");
+        if (player.heroTimeCount <= 0 || enemy.heroTimeCount <= 0)
+        {
+            Debug.Log("Time up");
+            ShowResultPanel(player.heroTimeCount);
+        }
+    }
+
     // 結果を表示する
-    void ShowResultPanel(int heroHp)
+    void ShowResultPanel(int resultCount)
     {
         StopAllCoroutines();
-        uiManager.ShowResultPanel(heroHp);
+        enemyAI.StopAllCoroutines();
+        uiManager.ShowResultPanel(resultCount);
     }
 
     public void DecreseTime(int decreseTime)

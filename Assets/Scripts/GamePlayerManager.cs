@@ -18,7 +18,7 @@ public class GamePlayerManager : MonoBehaviour
         heroHp = 10;
         manaCost = 3;
         defaultManaCost = 3;
-        heroTimeCount = 30;
+        heroTimeCount = 10;
     }
 
     public void IncreaseManaCost()

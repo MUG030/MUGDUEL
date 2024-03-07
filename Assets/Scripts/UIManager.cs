@@ -52,10 +52,10 @@ public class UIManager : MonoBehaviour
         enemyHeroHpText.text = enemyHeroHp.ToString();
     }
 
-    public void ShowResultPanel(int heroHp)
+    public void ShowResultPanel(int resultCount)
     {        
         resultPanel.SetActive(true);
-        if (heroHp <= 0)
+        if (resultCount <= 0)
         {
             resultText.text = "LOSE";
         }
