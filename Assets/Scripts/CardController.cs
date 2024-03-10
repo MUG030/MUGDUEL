@@ -39,6 +39,11 @@ public class CardController : MonoBehaviour
         SetCanAttack(false);
     }
 
+    public CardModel GetCardModelFromId(int cardID, bool isPlayer)
+    {
+        return new CardModel(cardID, isPlayer);
+    }
+
     public void Heal(CardController friendCard)
     {
         cardModel.Heal(friendCard);
@@ -83,6 +88,25 @@ public class CardController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void LeaderAtkSkill(CardController card, int addAtk)
+    {
+        cardModel.LeaderAtkSkill(card, addAtk);
+        Debug.Log("カードの攻撃力" + cardModel.atk);
+        RefreshView();
+    }
+
+    public void LeaderHpSkill(CardController card, int addHp)
+    {
+        if (cardModel.spell != SPELL.NONE)
+        {
+            Debug.Log("スキルカードに攻撃力増加はできません。");
+            return;
+        }
+        cardModel.LeaderHpSkill(card, addHp);
+        Debug.Log("カードの体力" + cardModel.hp);
+        RefreshView();
     }
 
     /*
@@ -153,10 +177,10 @@ public class CardController : MonoBehaviour
                 gameManager.HealToHero(this);
                 break;
             case SPELL.DECREASE_TIME:
-                gameManager.DecreseTime(5);
+                gameManager.DecreseTime(cardModel.atk);
                 break;
             case SPELL.INCREASE_TIME:
-                gameManager.IncreaseTime(5);
+                gameManager.IncreaseTime(cardModel.atk);
                 break;
             case SPELL.DECREASE_DECK:
                 gameManager.DecreaseDeck(cardModel.atk);

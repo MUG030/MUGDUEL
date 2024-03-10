@@ -13,6 +13,7 @@ public class CardModel
     public Sprite icon;
     public ABILITY ability;
     public SPELL spell;
+    public int id;
 
     public bool isAlive;
     public bool canAttack;
@@ -31,6 +32,8 @@ public class CardModel
         isAlive = true;
         isPlayerCard = isPlayer;
         spell = cardEntity.spel;
+
+        id = cardID;
     }
 
     private void Damage(int dmg)
@@ -48,6 +51,16 @@ public class CardModel
         hp += heal;
     }
 
+    private void AddAtk(int addAtk)
+    {
+        atk += addAtk;
+    }
+
+    private void AddHp(int addHp)
+    {
+        hp += addHp;
+    }
+
     /// <summary>
     /// カードを攻撃する処理の実装
     /// </summary>
@@ -62,4 +75,13 @@ public class CardModel
         card.cardModel.RecoveryHP(atk);
     }
 
+    public void LeaderAtkSkill(CardController card, int addAtk)
+    {
+        card.cardModel.AddAtk(addAtk);
+    }
+
+    public void LeaderHpSkill(CardController card, int addHp)
+    {
+        card.cardModel.AddHp(addHp);
+    }
 }

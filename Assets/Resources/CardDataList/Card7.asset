@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f093b09551e4146dc868b00fe6460ca7, type: 3}
   m_Name: Card7
   m_EditorClassIdentifier: 
-  name: 
+  name: DrawCards
   hp: 0
-  atk: 0
-  cost: 0
-  icon: {fileID: 0}
+  atk: 1
+  cost: 1
+  icon: {fileID: 21300000, guid: 76c63b23a00bc434b90a43dca3a3a54e, type: 3}
   ability: 0
-  spel: 0
+  spel: 10

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
                                enemyHandTransform,
                                enemyFieldTransform;
     [SerializeField] CardController cardPrefab;
+    [SerializeField] LeadersAbility leadersAbility;
 
     public bool isPlayerTurn;
 
@@ -46,7 +47,6 @@ public class GameManager : MonoBehaviour
         uiManager.HideResultPanel();
         defaltPlayerTimeCount = player.heroTimeCount;
         defaultEnemyTimeCount = enemy.heroTimeCount;
-        // そして、以下のようにプレイヤーと敵のデッキを初期化します：
         DisplayDeckCount();
         // player.Init(GenerateRandomDeck(10, 1, 6, 3));
         // enemy.Init(GenerateRandomDeck(10, 1, 6, 3));
@@ -106,6 +106,8 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.ShowDeckCount(player.deck.Count, enemy.deck.Count);
+
+        // cardPrefab.RefreshView();
 
         return deck;
     }
@@ -185,6 +187,11 @@ public class GameManager : MonoBehaviour
         {
             card.Init(cardID, false);
         }
+
+        // 新たに生成したカードのCardControllerをリストに追加
+        // CardControllers.Add(card);
+
+        LeadersAbility(card);
     }
 
     void TurnCalc()
@@ -385,7 +392,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("CheckDefaultTime");
         if (player.heroTimeCount <= 0 || enemy.heroTimeCount <= 0)
         {
-            Debug.Log("Time up");
             ShowResultPanel(player.heroTimeCount);
         }
     }
@@ -458,6 +464,25 @@ public class GameManager : MonoBehaviour
             {
                 GiveCardToHand(enemy.deck, enemyHandTransform);
             }
+        }
+    }
+
+    private void LeadersAbility(CardController cardController)
+    {
+        if (leadersAbility.leaderType == LEADER.NONE)
+        {
+            return;
+        }
+        switch (leadersAbility.leaderType)
+        {
+            case LEADER.ATK_LEADER:
+                Debug.Log("ATK_LEADER");
+                cardController.LeaderAtkSkill(cardController, 1);
+                break;
+            case LEADER.HP_LEADER:
+                Debug.Log("HP_LEADER");
+                cardController.LeaderHpSkill(cardController, 1);
+                break;
         }
     }
 }
