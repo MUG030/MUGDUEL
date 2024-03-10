@@ -20,6 +20,8 @@ public class CardModel
     public bool isFieldCard;
     public bool isPlayerCard;
 
+    public bool hasIncreasedAttack { get; set; }
+
     public CardModel(int cardID, bool isPlayer)
     {
         CardEntity cardEntity = Resources.Load<CardEntity>("CardDataList/Card" + cardID);

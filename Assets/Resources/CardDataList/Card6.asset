@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: DecreaseTime
   hp: 0
-  atk: 5
+  atk: 1
   cost: 1
   icon: {fileID: 21300000, guid: 90843f6aa741ec64ea9f69e22236be9d, type: 3}
   ability: 0

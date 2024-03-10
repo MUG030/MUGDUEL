@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class CardController : MonoBehaviour
@@ -93,7 +90,6 @@ public class CardController : MonoBehaviour
     public void LeaderAtkSkill(CardController card, int addAtk)
     {
         cardModel.LeaderAtkSkill(card, addAtk);
-        Debug.Log("カードの攻撃力" + cardModel.atk);
         RefreshView();
     }
 
@@ -101,11 +97,9 @@ public class CardController : MonoBehaviour
     {
         if (cardModel.spell != SPELL.NONE)
         {
-            Debug.Log("スキルカードに攻撃力増加はできません。");
             return;
         }
         cardModel.LeaderHpSkill(card, addHp);
-        Debug.Log("カードの体力" + cardModel.hp);
         RefreshView();
     }
 

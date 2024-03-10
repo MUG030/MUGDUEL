@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
+public enum Weather
+{
+    // NONE,
+    SUNNY,
+    RAINY,
+    SNOWY,
+    CLOUDY
+}
+
 public class GameManager : MonoBehaviour
 {
     public GamePlayerManager player;
@@ -26,6 +35,10 @@ public class GameManager : MonoBehaviour
 
     private int defaltPlayerTimeCount,
                 defaultEnemyTimeCount;
+
+    private Weather currentWeather;
+    private Weather nextWeather;
+    private int turnCount;
 
     // シングルトン化（どこからでもアクセスできるようにする）
     public static GameManager instance;
@@ -56,6 +69,13 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = true;
         TurnCalc();
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
+
+        turnCount++;
+        Debug.Log(turnCount);
+        currentWeather = nextWeather;
+        nextWeather = (Weather)UnityEngine.Random.Range(0, 1);
+        Debug.Log("Current Weather is:" + currentWeather);
+        Debug.Log("Next Weather is:" + nextWeather);
     }
 
     public void DisplayDeckCount()
@@ -188,9 +208,6 @@ public class GameManager : MonoBehaviour
             card.Init(cardID, false);
         }
 
-        // 新たに生成したカードのCardControllerをリストに追加
-        // CardControllers.Add(card);
-
         LeadersAbility(card);
     }
 
@@ -294,6 +311,7 @@ public class GameManager : MonoBehaviour
         {
             player.IncreaseManaCost();
             GiveCardToHand(player.deck, playerHandTransform);
+            turnCount++;
         }
         else
         {
@@ -301,7 +319,21 @@ public class GameManager : MonoBehaviour
             GiveCardToHand(enemy.deck, enemyHandTransform);
         }
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
+
+        if (turnCount % 3 == 0)
+        {
+            currentWeather = nextWeather;
+            nextWeather = (Weather)UnityEngine.Random.Range(0, 1);
+            Debug.Log("Current Weather is:" + currentWeather);
+            Debug.Log("Next Weather is:" + nextWeather);
+        }
+        else if (turnCount % 3 == 2)
+        {
+            Debug.Log("Next Weather will be:" + nextWeather);
+        }
         
+        ApplyWeatherEffects();
+
         TurnCalc();
     }
 
@@ -389,7 +421,6 @@ public class GameManager : MonoBehaviour
     // defaulrTimeをチェック
     public void CheckDefaultTime()
     {
-        Debug.Log("CheckDefaultTime");
         if (player.heroTimeCount <= 0 || enemy.heroTimeCount <= 0)
         {
             ShowResultPanel(player.heroTimeCount);
@@ -438,7 +469,6 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseDeck(int decreseDeck)
     {
-        Debug.Log("Decrease deck");
         if (isPlayerTurn)
         {
             enemy.deck.RemoveAt(decreseDeck);
@@ -476,12 +506,75 @@ public class GameManager : MonoBehaviour
         switch (leadersAbility.leaderType)
         {
             case LEADER.ATK_LEADER:
-                Debug.Log("ATK_LEADER");
                 cardController.LeaderAtkSkill(cardController, 1);
                 break;
             case LEADER.HP_LEADER:
-                Debug.Log("HP_LEADER");
                 cardController.LeaderHpSkill(cardController, 1);
+                break;
+        }
+    }
+
+    public void ApplyWeatherEffects()
+    {
+        Debug.Log("ApplyWeatherEffects");
+        switch (currentWeather)
+        {
+            /*case Weather.NONE:
+                break;*/
+            case Weather.RAINY:
+                // Decrease time limit by 3
+                break;
+            case Weather.SNOWY:
+                // Increase mana by 3
+                player.manaCost += 3;
+                break;
+            case Weather.SUNNY:
+                // Increase attack power by 1
+                Debug.Log("SUNNY");
+                CardController[] playerCards = GetFriendFieldCards(true);
+                foreach (var card in playerCards)
+                {
+                    if (!card.cardModel.hasIncreasedAttack)
+                    {
+                        Debug.Log("Increase attack power by 1");                        
+                        card.cardModel.atk += 1;
+                        card.cardModel.hasIncreasedAttack = true;
+                        card.RefreshView();
+                    }
+                }
+                /*if (isPlayerTurn)
+                {
+                    CardController[] playerCards = GetFriendFieldCards(true);
+                    foreach (var card in playerCards)
+                    {
+                        if (!card.cardModel.hasIncreasedAttack)
+                        {
+                            Debug.Log("Increase attack power by 1");
+                            card.cardModel.atk += 1;
+                            card.cardModel.hasIncreasedAttack = true;
+                            card.RefreshView();
+                        }
+                    }
+                }
+                else
+                {
+                    CardController[] enemyCards = GetEnemyFieldCards(true);
+                    foreach (var card in enemyCards)
+                    {
+                        if (!card.cardModel.hasIncreasedAttack)
+                        {
+                            Debug.Log("Increase attack power by 1");
+                            card.cardModel.atk += 1;
+                            card.cardModel.hasIncreasedAttack = true;
+                            card.RefreshView();
+                        }
+                    }
+                }*/
+                
+                break;
+            case Weather.CLOUDY:
+                // Increase HP by 1
+                player.heroHp += 1;
                 break;
         }
     }
