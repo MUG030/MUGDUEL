@@ -20,16 +20,35 @@ public class LeadersAbility : MonoBehaviour
         gameManager = GameManager.instance;
     }
 
-    public void SunnyAbillity()
+    public void WeatherTypeChange(Weather weatherType)
+    {
+        switch (weatherType)
+        {
+            case Weather.NONE:
+                break;
+            case Weather.SNOWY:
+                break;
+            case Weather.SUNNY:
+                SunnyAbillity(-1);
+                break;
+            case Weather.RAINY:
+                RainyAbillity(-3);
+                break;
+            case Weather.CLOUDY:
+                CloudyAbillity(-1);
+                break;
+        }
+    }
+
+    public void SunnyAbillity(int sunnyAbillity)
     {
         CardController[] playerCards = gameManager.GetFriendFieldCards(true);
         CardController[] enemyCards = gameManager.GetEnemyFieldCards(false);
         foreach (var card in playerCards)
         {
             if (!card.cardModel.hasIncreasedAttack)
-            {
-                Debug.Log("Increase attack power by 1");                        
-                card.cardModel.atk += 1;
+            {                        
+                card.cardModel.atk += sunnyAbillity;
                 card.cardModel.hasIncreasedAttack = true;
                 card.RefreshView();
             }
@@ -38,8 +57,7 @@ public class LeadersAbility : MonoBehaviour
         {
             if (!card.cardModel.hasIncreasedAttack)
             {
-                Debug.Log("Increase attack power by 1");
-                card.cardModel.atk += 1;
+                card.cardModel.atk += sunnyAbillity;
                 card.cardModel.hasIncreasedAttack = true;
                 card.RefreshView();
             }
@@ -59,29 +77,28 @@ public class LeadersAbility : MonoBehaviour
         }
     }
 
-    public void RainyAbillity(int decreaseTime)
+    public void RainyAbillity(int rainyAbillity)
     {
         if (!gameManager.weatherSwitch) return;
-        gameManager.enemy.heroTimeCount -= decreaseTime;
+        gameManager.enemy.heroTimeCount -= rainyAbillity;
         gameManager.defaultEnemyTimeCount = gameManager.enemy.heroTimeCount;
         gameManager.uiManager.UpDateTime(gameManager.enemy.heroTimeCount, gameManager.defaltPlayerTimeCount);
 
-        gameManager.player.heroTimeCount -= decreaseTime;
+        gameManager.player.heroTimeCount -= rainyAbillity;
         gameManager.defaltPlayerTimeCount = gameManager.player.heroTimeCount;
         gameManager.uiManager.UpDateTime(gameManager.defaultEnemyTimeCount, gameManager.player.heroTimeCount);
         gameManager.weatherSwitch = false;
     }
 
-    public void CloudyAbillity()
+    public void CloudyAbillity(int cloudyAbillity)
     {
         CardController[] playerCards = gameManager.GetFriendFieldCards(true);
         CardController[] enemyCards = gameManager.GetEnemyFieldCards(true);
         foreach (var card in playerCards)
         {
             if (!card.cardModel.hasIncreasedHp)
-            {
-                Debug.Log("Increase attack power by 1");                        
-                card.cardModel.hp += 1;
+            {                        
+                card.cardModel.hp += cloudyAbillity;
                 card.cardModel.hasIncreasedHp = true;
                 card.RefreshView();
             }
@@ -90,8 +107,7 @@ public class LeadersAbility : MonoBehaviour
         {
             if (!card.cardModel.hasIncreasedHp)
             {
-                Debug.Log("Increase attack power by 1");
-                card.cardModel.hp += 1;
+                card.cardModel.hp += cloudyAbillity;
                 card.cardModel.hasIncreasedHp = true;
                 card.RefreshView();
             }

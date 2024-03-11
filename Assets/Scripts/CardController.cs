@@ -73,6 +73,7 @@ public class CardController : MonoBehaviour
         {
             SetCanAttack(true);
         }
+        GameManager.instance.ApplyWeatherEffects();
     }
 
     public void CheckAlive()

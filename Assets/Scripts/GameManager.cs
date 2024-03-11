@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 
 public enum Weather
 {
-    // NONE,
+    NONE,
     CLOUDY,
     RAINY,
     SNOWY,
@@ -75,16 +75,16 @@ public class GameManager : MonoBehaviour
         turnCount++;
         Debug.Log(turnCount);
         currentWeather = nextWeather;
-        nextWeather = (Weather)UnityEngine.Random.Range(0, 1);
+        nextWeather = (Weather)UnityEngine.Random.Range(0, 5);
         weatherSwitch = true;
-        Debug.Log("Current Weather is:" + currentWeather);
-        Debug.Log("Next Weather is:" + nextWeather);
+        Debug.Log("現在の天気は:" + currentWeather);
+        Debug.Log("次の天気は:" + nextWeather);
     }
 
     public void DisplayDeckCount()
     {
-        List<int> playerDeck = GenerateRandomDeck(10, 1, 7, 3);
-        List<int> enemyDeck = GenerateRandomDeck(10, 1, 7, 3);
+        List<int> playerDeck = GenerateRandomDeck(36, 1, 16, 3);
+        List<int> enemyDeck = GenerateRandomDeck(36, 1, 16, 3);
 
         player.Init(playerDeck);
         enemy.Init(enemyDeck);
@@ -323,20 +323,23 @@ public class GameManager : MonoBehaviour
         }
         uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
 
+        // ApplyWeatherEffects();
+
         if (turnCount % 3 == 0)
         {
+            leadersAbility.WeatherTypeChange(currentWeather);
             currentWeather = nextWeather;
-            nextWeather = (Weather)UnityEngine.Random.Range(0, 1);
+            nextWeather = (Weather)UnityEngine.Random.Range(0, 5);
             weatherSwitch = true;
-            Debug.Log("Current Weather is:" + currentWeather);
-            Debug.Log("Next Weather is:" + nextWeather);
-            // ApplyWeatherEffects();
+            Debug.Log("現在の天気は:" + currentWeather);
+            Debug.Log("次の天気は:" + nextWeather);
+            ApplyWeatherEffects();
         }
         else if (turnCount % 3 == 2)
         {
-            Debug.Log("Next Weather will be:" + nextWeather);
+            Debug.Log("次の天気は:" + nextWeather);
         }
-        ApplyWeatherEffects();
+
         TurnCalc();
     }
 
@@ -519,29 +522,26 @@ public class GameManager : MonoBehaviour
 
     public void ApplyWeatherEffects()
     {
-        Debug.Log("ApplyWeatherEffects");
         switch (currentWeather)
         {
-            /*case Weather.NONE:
-                break;*/
+            case Weather.NONE:
+                break;
             case Weather.RAINY:
                 // Decrease time limit by 3
                 leadersAbility.RainyAbillity(3);
                 break;
             case Weather.SNOWY:
                 // Increase mana by 3
-                Debug.Log("SNOWY");
                 leadersAbility.SnowyAbillity();
                 uiManager.ShowManaCost(player.manaCost, enemy.manaCost);
                 break;
             case Weather.SUNNY:
                 // Increase attack power by 1
-                Debug.Log("SUNNY");
-                leadersAbility.SunnyAbillity();
+                leadersAbility.SunnyAbillity(1);
                 break;
             case Weather.CLOUDY:
                 // Increase HP by 1
-                leadersAbility.CloudyAbillity();
+                leadersAbility.CloudyAbillity(1);
                 break;
         }
     }
