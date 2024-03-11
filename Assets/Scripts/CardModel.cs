@@ -21,6 +21,7 @@ public class CardModel
     public bool isPlayerCard;
 
     public bool hasIncreasedAttack { get; set; }
+    public bool hasIncreasedHp { get; set; }
 
     public CardModel(int cardID, bool isPlayer)
     {
