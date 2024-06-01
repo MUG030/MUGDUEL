@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
         weatherSwitch = true;
         Debug.Log("現在の天気は:" + currentWeather);
         Debug.Log("次の天気は:" + nextWeather);
+        WeatherReport(nextWeather.ToString());
     }
 
     public void DisplayDeckCount()
@@ -107,6 +108,12 @@ public class GameManager : MonoBehaviour
         deck.Add(7);
         counts.Add(7, 1);
         */
+
+        if (maxValue * maxDuplicates < size)
+        {
+            Debug.LogError("引数が不正です");
+            return deck;
+        }
 
         for (int i = 0; i < size /* - 1*/ ; i++)
         {
@@ -175,6 +182,17 @@ public class GameManager : MonoBehaviour
         // enemy.deck = GenerateRandomDeck(5, 1, 6, 10);
 
         StartGame();
+    }
+
+    void WeatherReport(string weather)
+    {
+        if (UnityEngine.Random.Range(0, 10) == 0)
+        {
+            Weather trickWeather = (Weather)UnityEngine.Random.Range(0, 5);
+            uiManager.ShowWeatherForecast(trickWeather.ToString());
+            return;
+        }
+        uiManager.ShowWeatherForecast(weather);
     }
 
     void SettingInitHand()

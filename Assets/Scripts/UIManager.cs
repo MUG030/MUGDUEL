@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class UIManager : MonoBehaviour
     // 時間管理
     [SerializeField] TextMeshProUGUI enemyTimeCountText;
     [SerializeField] TextMeshProUGUI playerTimeCountText;
+    [SerializeField] TextMeshProUGUI weatherBoardText;
+    [SerializeField] GameObject weatherBoard;
     // Start is called before the first frame update
     public void HideResultPanel()
     {
@@ -53,7 +56,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void ShowResultPanel(int resultCount)
-    {        
+    {
         resultPanel.SetActive(true);
         if (resultCount <= 0)
         {
@@ -65,4 +68,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public async void ShowWeatherForecast(string weather)
+    {
+        weatherBoard.SetActive(true);
+        weatherBoardText.text = weather;
+        // Unitaskを使って3秒待機
+        await UniTask.Delay(3000);
+        weatherBoard.SetActive(false);
+    }
 }
