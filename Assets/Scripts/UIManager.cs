@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerTimeCountText;
     [SerializeField] TextMeshProUGUI weatherBoardText;
     [SerializeField] GameObject weatherBoard;
+
+    [SerializeField] TextMeshProUGUI deadPoolText;
     // Start is called before the first frame update
     public void HideResultPanel()
     {
@@ -53,6 +55,11 @@ public class UIManager : MonoBehaviour
     {
         playerHeroHpText.text = playerHeroHp.ToString();
         enemyHeroHpText.text = enemyHeroHp.ToString();
+    }
+
+    public void DeadCardList(int deadCardCount)
+    {
+        deadPoolText.text = deadCardCount.ToString();
     }
 
     public void ShowResultPanel(int resultCount)

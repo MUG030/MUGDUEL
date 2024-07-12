@@ -84,6 +84,11 @@ public class CardController : MonoBehaviour
         }
         else
         {
+            if (cardModel.isPlayerCard)
+            {
+                Debug.Log("プレイヤーカードが破壊されました");
+                GameManager.instance.DeadCardList(cardModel.id);
+            }
             Destroy(this.gameObject);
         }
     }

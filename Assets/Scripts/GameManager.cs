@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Transform playerHero;
     public Transform enemyHero;
 
+    public List<int> deadCards = new List<int>();
 
     public int defaltPlayerTimeCount,
                 defaultEnemyTimeCount;
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         // enemy.Init(GenerateRandomDeck(10, 1, 6, 3));
         uiManager.ShowHeroHP(player.heroHp, enemy.heroHp);
         uiManager.UpDateTime(defaultEnemyTimeCount, defaltPlayerTimeCount);
+        uiManager.DeadCardList(deadCards.Count);
         SettingInitHand();
         isPlayerTurn = true;
         TurnCalc();
@@ -84,8 +86,8 @@ public class GameManager : MonoBehaviour
 
     public void DisplayDeckCount()
     {
-        List<int> playerDeck = GenerateRandomDeck(36, 1, 16, 3);
-        List<int> enemyDeck = GenerateRandomDeck(36, 1, 16, 3);
+        List<int> playerDeck = GenerateRandomDeck(24, 1, 13, 3);
+        List<int> enemyDeck = GenerateRandomDeck(24, 1, 13, 3);
 
         player.Init(playerDeck);
         enemy.Init(enemyDeck);
@@ -230,6 +232,14 @@ public class GameManager : MonoBehaviour
         }
 
         LeadersAbility(card);
+    }
+
+    public void DeadCardList(int cardID)
+    {
+        deadCards.Add(cardID);
+        Debug.Log("CardID : " + cardID);
+        Debug.Log("Total dead cards: " + deadCards.Count);
+        uiManager.DeadCardList(deadCards.Count);
     }
 
     void TurnCalc()
