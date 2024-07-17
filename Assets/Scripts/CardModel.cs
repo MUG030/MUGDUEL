@@ -10,6 +10,7 @@ public class CardModel
     public int hp;
     public int atk;
     public int cost;
+    public int abillityScore;
     public Sprite icon;
     public ABILITY ability;
     public SPELL spell;
@@ -30,6 +31,7 @@ public class CardModel
         hp = cardEntity.hp;
         atk = cardEntity.atk;
         cost = cardEntity.cost;
+        abillityScore = cardEntity.abillityScore;
         icon = cardEntity.icon;
         ability = cardEntity.ability;
         isAlive = true;
@@ -70,7 +72,17 @@ public class CardModel
     /// <param name="card"></param>
     public void Attack(CardController card)
     {
-        card.cardModel.Damage(atk);
+        if (card.cardModel.ability == ABILITY.PROTECT)
+        {
+            Debug.Log("プロテクト発動");
+            int dmg = atk - card.cardModel.abillityScore;
+            card.cardModel.Damage(dmg);
+        }
+        else
+        {
+            Debug.Log("通常攻撃");
+            card.cardModel.Damage(atk);
+        }
     }
 
     public void Heal(CardController card)

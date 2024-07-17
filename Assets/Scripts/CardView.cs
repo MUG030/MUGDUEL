@@ -13,6 +13,7 @@ public class CardView : MonoBehaviour
     [SerializeField] Image iconImage;
     [SerializeField] GameObject selectablePanel;
     [SerializeField] GameObject shieldPanel;
+    [SerializeField] GameObject protectPanel;
     [SerializeField] GameObject maskPanel;
 
     public void SetCard(CardModel cardModel)
@@ -31,6 +32,15 @@ public class CardView : MonoBehaviour
         else
         {
             shieldPanel.SetActive(false);
+        }
+
+        if (cardModel.ability == ABILITY.PROTECT)
+        {
+            protectPanel.SetActive(true);
+        }
+        else
+        {
+            protectPanel.SetActive(false);
         }
 
         if (cardModel.spell != SPELL.NONE)

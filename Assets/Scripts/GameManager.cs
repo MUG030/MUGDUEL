@@ -96,10 +96,10 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// ランダムなデッキを生成する
     /// </summary>
-    /// <param name="size"></param>
-    /// <param name="minValue"></param>
-    /// <param name="maxValue"></param>
-    /// <param name="maxDuplicates"></param>
+    /// <param name="size"> デッキの総数 </param>
+    /// <param name="minValue"> 生成するカードの最小ID </param>
+    /// <param name="maxValue"> 生成するカードの最大ID </param>
+    /// <param name="maxDuplicates"> 生成するカードの被ってよい最大枚数 </param>
     /// <returns></returns>
     private List<int> GenerateRandomDeck(int size, int minValue, int maxValue, int maxDuplicates)
     {

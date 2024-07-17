@@ -6,12 +6,18 @@ using UnityEngine;
 // カードデータそのものとその処理
 public class CardEntity : ScriptableObject
 {
+    [Header("カード情報")]
     public new string name;
     public int hp;
     public int atk;
     public int cost;
+    public int abillityScore;   // アビリティの値
     public Sprite icon;
+    
+    [Space(10)]
+    [Header("モンスターカードの能力")]
     public ABILITY ability;
+    [Header("スペルカードの能力")]
     public SPELL spel;
 }
 
@@ -20,6 +26,7 @@ public enum ABILITY
     NONE,
     INIT_ATTACKABLE,
     SHIELD,
+    PROTECT,
 }
 
 public enum SPELL
